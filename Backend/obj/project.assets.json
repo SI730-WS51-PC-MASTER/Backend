@@ -3124,11 +3124,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alex\\RiderProjects\\PC-Master\\Backend\\Backend\\Backend.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\GitHub\\Backend\\Backend\\Backend.csproj",
       "projectName": "Backend",
-      "projectPath": "C:\\Users\\Alex\\RiderProjects\\PC-Master\\Backend\\Backend\\Backend.csproj",
+      "projectPath": "C:\\Users\\Alex\\Documents\\GitHub\\Backend\\Backend\\Backend.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alex\\RiderProjects\\PC-Master\\Backend\\Backend\\obj\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\GitHub\\Backend\\Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",

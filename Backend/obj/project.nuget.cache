@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E6bCxh71n4E=",
+  "dgSpecHash": "nKceJzfOTPE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alex\\RiderProjects\\PC-Master\\Backend\\Backend\\Backend.csproj",
+  "projectFilePath": "C:\\Users\\Alex\\Documents\\GitHub\\Backend\\Backend\\Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alex\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\entityframeworkcore.createdupdateddate\\8.0.0\\entityframeworkcore.createdupdateddate.8.0.0.nupkg.sha512",
