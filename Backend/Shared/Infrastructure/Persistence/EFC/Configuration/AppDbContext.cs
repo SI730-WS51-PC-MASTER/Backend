@@ -23,10 +23,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<FavoriteTechnician>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<FavoriteTechnician>().Property(f => f.TechnicianId).IsRequired();
         builder.Entity<FavoriteTechnician>().Property(f => f.TechnicalSupportApiKey).IsRequired();
-        //builder.Entity<FavoriteTechnician>().Property(f => f.SupportType).IsRequired();
-        //builder.Entity<FavoriteTechnician>().Property(f => f.DateOfRequest).IsRequired();
-        //builder.Entity<FavoriteTechnician>().Property(f => f.StartDate).IsRequired();
-        //builder.Entity<FavoriteTechnician>().Property(f => f.EndDate).IsRequired();
+        builder.Entity<FavoriteTechnician>().Property(f => f.SupportType).IsRequired();
+        builder.Entity<FavoriteTechnician>().Property(f => f.DateOfRequest).IsRequired();
+        builder.Entity<FavoriteTechnician>().Property(f => f.StartDate).IsRequired();
+        builder.Entity<FavoriteTechnician>().Property(f => f.EndDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
 

@@ -5,4 +5,4 @@ namespace Backend.TechnicalSupport;
 /// </summary>
 /// <param name="TechnicalSupportApiKey"></param>
 /// <param name="TechnicianId"></param>
-public record CreateFavoriteTechnicianCommand(string TechnicalSupportApiKey, string TechnicianId );
+public record CreateFavoriteTechnicianCommand(string TechnicalSupportApiKey, string TechnicianId, string SupportType, string DateOfRequest, string StartDate, string EndDate);

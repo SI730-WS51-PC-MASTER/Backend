@@ -7,6 +7,6 @@ public static class FavoriteTechnicianResourceFromEntityAssembler
 {
     public static FavoriteTechnicianResource ToResourceFromEntity(FavoriteTechnician entity)
     {
-        return new FavoriteTechnicianResource(entity.Id, entity.TechnicalSupportApiKey, entity.TechnicianId);
+        return new FavoriteTechnicianResource(entity.Id, entity.TechnicalSupportApiKey, entity.TechnicianId, entity.DateOfRequest, entity.StartDate, entity.EndDate);
     }
 }

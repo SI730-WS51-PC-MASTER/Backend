@@ -6,6 +6,6 @@ public class CreateFavoriteTechnicianCommandFromResourceAssembler
 {
     public static CreateFavoriteTechnicianCommand ToCommandFromResource(CreateFavoriteTechnicianResource resource)
     {
-        return new CreateFavoriteTechnicianCommand(resource.TechnicalSupportApiKey, resource.TechnicianId);
+        return new CreateFavoriteTechnicianCommand(resource.TechnicalSupportApiKey, resource.TechnicianId, resource.SupportType, resource.DateOfRequest, resource.StartDate, resource.EndDate);
     }
 }
