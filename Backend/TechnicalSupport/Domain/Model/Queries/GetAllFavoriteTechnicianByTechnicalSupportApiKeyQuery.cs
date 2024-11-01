@@ -1,0 +1,3 @@
+namespace Backend.TechnicalSupport;
+
+public record GetAllFavoriteTechnicianByTechnicalSupportApiKeyQuery(string TechnicalSupportApiKey);

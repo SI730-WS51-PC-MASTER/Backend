@@ -2,6 +2,11 @@ using Backend.Shared.Domain.Repositories;
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Backend.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Interfaces.ASAP.Configuration;
+using Backend.TechnicalSupport;
+using Backend.TechnicalSupport.Application.Internal.CommandServices;
+using Backend.TechnicalSupport.Application.Internal.QueryServices;
+using Backend.TechnicalSupport.Domain.Services;
+using Backend.TechnicalSupport.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +58,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
 builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
+builder.Services.AddScoped<IFavoriteTechnicianRepository, FavoriteTechnicianRepository>();
+builder.Services.AddScoped<IFavoriteTechnicianQueryService, FavoriteTechnicianQueryService>();
+builder.Services.AddScoped<IFavoriteTechnicianCommandService, FavoriteTechnicianCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

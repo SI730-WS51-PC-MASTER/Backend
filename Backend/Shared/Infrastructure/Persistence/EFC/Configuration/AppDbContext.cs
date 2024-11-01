@@ -1,4 +1,5 @@
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using Backend.TechnicalSupport;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         //Aquí el obvio error pero es porque debemos crear el bd y bla blabla
-        /*builder.Entity<FavoriteSource>().HasKey(f => f.Id);
-        builder.Entity<FavoriteSource>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<FavoriteSource>().Property(f => f.SourceId).IsRequired();
-        builder.Entity<FavoriteSource>().Property(f => f.NewsApiKey).IsRequired();*/
+        
+        //TechnicalSupport
+        builder.Entity<FavoriteTechnician>().HasKey(f => f.Id);
+        builder.Entity<FavoriteTechnician>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<FavoriteTechnician>().Property(f => f.TechnicianId).IsRequired();
+        builder.Entity<FavoriteTechnician>().Property(f => f.TechnicalSupportApiKey).IsRequired();
+        //builder.Entity<FavoriteTechnician>().Property(f => f.SupportType).IsRequired();
+        //builder.Entity<FavoriteTechnician>().Property(f => f.DateOfRequest).IsRequired();
+        //builder.Entity<FavoriteTechnician>().Property(f => f.StartDate).IsRequired();
+        //builder.Entity<FavoriteTechnician>().Property(f => f.EndDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
 
