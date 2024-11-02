@@ -1,8 +1,9 @@
+using Backend.TechnicalSupport.Domain.Model.Command;
 using Google.Protobuf.WellKnownTypes;
 
 namespace Backend.TechnicalSupport;
 
-public class FavoriteTechnician
+public class Advice
 {
     public int Id { get; }
     public string TechnicalSupportApiKey { get; set; }
@@ -12,7 +13,7 @@ public class FavoriteTechnician
     public string StartDate { get; set; }
     public string EndDate { get; set; }
    
-    protected FavoriteTechnician()
+    protected Advice()
     {
         TechnicalSupportApiKey = string.Empty;
         TechnicianId = string.Empty;  
@@ -22,7 +23,7 @@ public class FavoriteTechnician
         EndDate = string.Empty;
     }
 
-    public FavoriteTechnician(CreateFavoriteTechnicianCommand command)
+    public Advice(CreateAdviceCommand command)
     {
         TechnicalSupportApiKey = command.TechnicalSupportApiKey;
         TechnicianId = command.TechnicianId;
@@ -30,5 +31,14 @@ public class FavoriteTechnician
         DateOfRequest = command.DateOfRequest;
         StartDate = command.StartDate;
         EndDate = command.EndDate;
+    }
+    
+    public void UpdateProperties(UpdateAdviceCommand command)
+    {
+        this.TechnicalSupportApiKey = command.TechnicalSupportApiKey;
+        this.DateOfRequest = command.DateOfRequest;
+        this.StartDate = command.StartDate;
+        this.EndDate = command.EndDate;
+        // Update other properties as needed
     }
 }

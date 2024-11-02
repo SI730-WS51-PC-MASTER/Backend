@@ -19,14 +19,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         //Aquí el obvio error pero es porque debemos crear el bd y bla blabla
         
         //TechnicalSupport
-        builder.Entity<FavoriteTechnician>().HasKey(f => f.Id);
-        builder.Entity<FavoriteTechnician>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<FavoriteTechnician>().Property(f => f.TechnicianId).IsRequired();
-        builder.Entity<FavoriteTechnician>().Property(f => f.TechnicalSupportApiKey).IsRequired();
-        builder.Entity<FavoriteTechnician>().Property(f => f.SupportType).IsRequired();
-        builder.Entity<FavoriteTechnician>().Property(f => f.DateOfRequest).IsRequired();
-        builder.Entity<FavoriteTechnician>().Property(f => f.StartDate).IsRequired();
-        builder.Entity<FavoriteTechnician>().Property(f => f.EndDate).IsRequired();
+        builder.Entity<Advice>().HasKey(f => f.Id);
+        builder.Entity<Advice>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Advice>().Property(f => f.TechnicianId).IsRequired();
+        builder.Entity<Advice>().Property(f => f.TechnicalSupportApiKey).IsRequired();
+        builder.Entity<Advice>().Property(f => f.SupportType).IsRequired();
+        builder.Entity<Advice>().Property(f => f.DateOfRequest).IsRequired();
+        builder.Entity<Advice>().Property(f => f.StartDate).IsRequired();
+        builder.Entity<Advice>().Property(f => f.EndDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
 

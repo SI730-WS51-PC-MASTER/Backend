@@ -58,9 +58,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
 builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
-builder.Services.AddScoped<IFavoriteTechnicianRepository, FavoriteTechnicianRepository>();
-builder.Services.AddScoped<IFavoriteTechnicianQueryService, FavoriteTechnicianQueryService>();
-builder.Services.AddScoped<IFavoriteTechnicianCommandService, FavoriteTechnicianCommandService>();
+builder.Services.AddScoped<IAdviceRepository, AdviceRepository>();
+builder.Services.AddScoped<IAdviceQueryService, AdviceQueryService>();
+builder.Services.AddScoped<IAdviceCommandService, AdviceCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

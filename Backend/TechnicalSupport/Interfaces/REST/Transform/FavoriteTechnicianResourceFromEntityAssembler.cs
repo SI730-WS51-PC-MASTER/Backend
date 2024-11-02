@@ -5,8 +5,8 @@ namespace Backend.TechnicalSupport.Interfaces.REST.Transform;
 
 public static class FavoriteTechnicianResourceFromEntityAssembler
 {
-    public static FavoriteTechnicianResource ToResourceFromEntity(FavoriteTechnician entity)
+    public static AdviceResource ToResourceFromEntity(Advice entity)
     {
-        return new FavoriteTechnicianResource(entity.Id, entity.TechnicalSupportApiKey, entity.TechnicianId, entity.DateOfRequest, entity.StartDate, entity.EndDate);
+        return new AdviceResource(entity.Id, entity.TechnicalSupportApiKey, entity.TechnicianId, entity.DateOfRequest, entity.StartDate, entity.EndDate);
     }
 }
