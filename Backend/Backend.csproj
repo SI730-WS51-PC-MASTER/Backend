@@ -17,4 +17,12 @@
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Application\ACL\" />
+      <Folder Include="Components\Application\Internal\CommandServices\" />
+      <Folder Include="Components\Application\Internal\QueryServices\" />
+      <Folder Include="Components\Interfaces\ACL\Resources\" />
+      <Folder Include="Components\Interfaces\REST\Transform\" />
+    </ItemGroup>
+
 </Project>
