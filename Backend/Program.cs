@@ -1,10 +1,11 @@
 using Backend.Shared.Domain.Repositories;
+using Backend.Shared.Infrastructure.Interfaces.ASAP.Configuration;
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Backend.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Backend.Shared.Interfaces.ASAP.Configuration;
 using Backend.TechnicalSupport;
 using Backend.TechnicalSupport.Application.Internal.CommandServices;
 using Backend.TechnicalSupport.Application.Internal.QueryServices;
+using Backend.TechnicalSupport.Domain.Repositories;
 using Backend.TechnicalSupport.Domain.Services;
 using Backend.TechnicalSupport.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -55,12 +56,13 @@ else if (builder.Environment.IsProduction())
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Bounded Context Injection Configuration for Business
-/*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
-builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
-builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
-builder.Services.AddScoped<IAdviceRepository, AdviceRepository>();
-builder.Services.AddScoped<IAdviceQueryService, AdviceQueryService>();
-builder.Services.AddScoped<IAdviceCommandService, AdviceCommandService>();
+builder.Services.AddScoped<ITechnicalSupportRepository, TechnicalSupportRepository>();
+builder.Services.AddScoped<ITechnicalSupportQueryService, TechnicalSupportQueryService>();
+builder.Services.AddScoped<ITechnicalSupportCommandService, TechnicalSupportCommandService>();
+builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
+builder.Services.AddScoped<ITechnicianQueryService, TechnicianQueryService>();
+builder.Services.AddScoped<ITechnicianCommandService, TechnicianCommandService>();
+
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

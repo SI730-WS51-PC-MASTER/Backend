@@ -3,19 +3,19 @@ using Backend.TechnicalSupport.Interfaces.REST.Resources;
 
 namespace Backend.TechnicalSupport.Interfaces.REST.Transform;
 
-public class UpdateFavoriteTechnicianCommandFromResourceAssembler
+public class UpdateTechnicalSupportCommandFromResourceAssembler
 {
-    public static UpdateAdviceCommand ToCommandFromResource(int id, UpdateAdviceResource resource)
+    public static UpdateTechnicalSupportCommand ToCommandFromResource(int id, UpdateTechnicalSupportResource resource)
     {
-        return new UpdateAdviceCommand
+        return new UpdateTechnicalSupportCommand
         (
             Id: id,
             TechnicalSupportApiKey: resource.TechnicalSupportApiKey,
             TechnicianId: resource.TechnicianId,
+            SupportType: resource.SupportType,
             DateOfRequest: resource.DateOfRequest,
             StartDate: resource.StartDate,
             EndDate: resource.EndDate
-            // Map additional properties as needed
         );
     }
 }

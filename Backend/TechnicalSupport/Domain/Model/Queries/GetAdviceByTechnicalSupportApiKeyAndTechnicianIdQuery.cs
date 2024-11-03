@@ -1,3 +1,0 @@
-namespace Backend.TechnicalSupport;
-
-public record GetAdviceByTechnicalSupportApiKeyAndTechnicianIdQuery(string TechnicalSupportApiKey, string TechnicianId);

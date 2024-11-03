@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+namespace Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 public static class ModelBuilderExtensions
 {

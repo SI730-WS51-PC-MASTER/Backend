@@ -3,7 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace Backend.TechnicalSupport;
 
-public class Advice
+public class TechnicalSupport
 {
     public int Id { get; }
     public string TechnicalSupportApiKey { get; set; }
@@ -13,7 +13,7 @@ public class Advice
     public string StartDate { get; set; }
     public string EndDate { get; set; }
    
-    protected Advice()
+    protected TechnicalSupport()
     {
         TechnicalSupportApiKey = string.Empty;
         TechnicianId = string.Empty;  
@@ -23,7 +23,7 @@ public class Advice
         EndDate = string.Empty;
     }
 
-    public Advice(CreateAdviceCommand command)
+    public TechnicalSupport(CreateTechnicalSupportCommand command)
     {
         TechnicalSupportApiKey = command.TechnicalSupportApiKey;
         TechnicianId = command.TechnicianId;
@@ -33,12 +33,13 @@ public class Advice
         EndDate = command.EndDate;
     }
     
-    public void UpdateProperties(UpdateAdviceCommand command)
+    public void UpdateProperties(UpdateTechnicalSupportCommand command)
     {
         this.TechnicalSupportApiKey = command.TechnicalSupportApiKey;
+        this.TechnicianId = command.TechnicianId;
+        this.SupportType = command.SupportType;
         this.DateOfRequest = command.DateOfRequest;
         this.StartDate = command.StartDate;
         this.EndDate = command.EndDate;
-        // Update other properties as needed
     }
 }

@@ -1,11 +1,11 @@
 namespace Backend.TechnicalSupport.Domain.Model.Command;
 
-public record UpdateAdviceCommand    (
+public record UpdateTechnicalSupportCommand    (
     int Id,
     string TechnicalSupportApiKey,
     string TechnicianId,
+    string SupportType,
     string DateOfRequest,
     string StartDate,
     string EndDate
-    // Add any additional properties as needed
 );
