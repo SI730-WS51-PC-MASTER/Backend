@@ -1,3 +1,7 @@
+using Backend.Interaction.Application.Internal.CommandServices;
+using Backend.Interaction.Application.Internal.QueryServices;
+using Backend.Interaction.Domain.Services;
+using Backend.Interaction.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Domain.Repositories;
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Backend.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -53,6 +57,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
 builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
+builder.Services.AddScoped<IReviewComponentRepository, ReviewComponentRepository>();
+builder.Services.AddScoped<IReviewComponentQueryService, ReviewComponentQueryService>();
+builder.Services.AddScoped<IReviewComponentCommandService, ReviewComponentCommandService>();
+
+builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSupportRepository>();
+builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
+builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

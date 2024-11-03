@@ -1,3 +1,5 @@
+using Backend.Interaction.Domain.Model.Aggregates;
+
 namespace Backend.Interaction.Domain.Model.Commands;
 
 public record CreateReviewTechnicalSupportCommand(
@@ -5,5 +7,7 @@ public record CreateReviewTechnicalSupportCommand(
     string Comment,
     string UserName,
     int TechnicalSupportId,
-    string TechnicalSupportName
-    );
+    string TechnicalSupport
+    )
+{
+}

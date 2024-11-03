@@ -7,12 +7,14 @@ using Backend.Shared.Domain.Repositories;
 namespace Backend.Interaction.Application.Internal.CommandServices;
 
 public class ReviewComponentCommandService(IReviewComponentRepository reviewComponentRepository,
-    //ICategoryRepository categoryRepository,
     IUnitOfWork unitOfWork)
     : IReviewComponentCommandService
 {
-    public Task<ReviewComponent?> Handle(CreateReviewComponentCommand command)
+    public async Task<ReviewComponent?> Handle(CreateReviewComponentCommand command)
     {
-        throw new NotImplementedException();
+        var reviewComponent = new ReviewComponent(command);
+        await reviewComponentRepository.AddAsync(reviewComponent);
+        await unitOfWork.CompleteAsync();
+        return reviewComponent;
     }
 }
