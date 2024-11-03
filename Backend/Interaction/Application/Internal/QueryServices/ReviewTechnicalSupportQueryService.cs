@@ -1,15 +1,21 @@
 using Backend.Interaction.Domain.Model.Aggregates;
 using Backend.Interaction.Domain.Model.Queries;
+using Backend.Interaction.Domain.Repositories;
 using Backend.Interaction.Domain.Services;
-using Backend.Interaction.Infrastructure.Persistence.EFC.Repositories;
 
 namespace Backend.Interaction.Application.Internal.QueryServices;
 
-public class ReviewTechnicalSupportQueryService(IReviewTechnicalSupportRepository reviewTechnicalSupportRepository):
-    IReviewTechnicalSupportQueryService
+public class ReviewTechnicalSupportQueryService : IReviewTechnicalSupportQueryService
 {
-    public async Task<ReviewTechnicalSupport?> Handle(GetAllReviewTechnicalSupportByIdQuery query)
+    private readonly IReviewTechnicalSupportRepository _reviewTechnicalSupportRepository;
+
+    public ReviewTechnicalSupportQueryService(IReviewTechnicalSupportRepository reviewTechnicalSupportRepository)
     {
-        return await reviewTechnicalSupportRepository.FindByIdAsync(query.TechnicalSupportId);
+        _reviewTechnicalSupportRepository = reviewTechnicalSupportRepository;
+    }
+
+    public async Task<IEnumerable<ReviewTechnicalSupport>> Handle(GetAllReviewTechnicalSupportByTechnicalSupportIdQuery query)
+    {
+        return await _reviewTechnicalSupportRepository.FindByTechnicalSupportIdAsync(query.TechnicalSupportId);
     }
 }

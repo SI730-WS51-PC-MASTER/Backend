@@ -1,0 +1,3 @@
+namespace Backend.Interaction.Domain.Model.Queries;
+
+public record GetAllReviewTechnicalSupportByTechnicalSupportIdQuery(int TechnicalSupportId);

@@ -13,23 +13,25 @@ namespace Backend.Interaction.Interfaces.Rest;
 public class ReviewTechnicalSupportController(IReviewTechnicalSupportCommandService reviewTechnicalSupportCommandService, 
     IReviewTechnicalSupportQueryService reviewTechnicalSupportQueryService) : ControllerBase
 {
-    [HttpGet("{TechnicalSupportId:int}")]
+    [HttpGet("{technicalSupportId:int}")]
     [SwaggerOperation(
-        Summary = "Get a review by its Technical Support id",
-        Description = "Get a review by its id",
+        Summary = "Get reviews by Technical Support ID",
+        Description = "Get all reviews for a specific Technical Support ID",
         OperationId = "GetTechnicalSupportById")]
-    [SwaggerResponse(StatusCodes.Status200OK, "The review was found", typeof(ReviewTechnicalSupportResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "No review found")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Reviews found", typeof(IEnumerable<ReviewTechnicalSupportResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "No reviews found")]
     public async Task<IActionResult> GetAllReviewTechnicalSupportByIdQuery(int technicalSupportId)
     {
-        var getAllReviewTechnicalSupportByIdQuery = new GetAllReviewTechnicalSupportByIdQuery(technicalSupportId);
-        var review = await reviewTechnicalSupportQueryService.Handle(getAllReviewTechnicalSupportByIdQuery);
-        if (review is null)
+        var getAllReviewTechnicalSupportByTechnicalSupportIdQuery = new GetAllReviewTechnicalSupportByTechnicalSupportIdQuery(technicalSupportId);
+        var reviews = await reviewTechnicalSupportQueryService.Handle(getAllReviewTechnicalSupportByTechnicalSupportIdQuery);
+
+        if (reviews == null || !reviews.Any())
         {
             return NotFound();
         }
-        var resource = ReviewTechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity(review);
-        return Ok(resource);
+
+        var resources = reviews.Select(ReviewTechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
     }
 
     [HttpPost]

@@ -5,5 +5,5 @@ namespace Backend.Interaction.Domain.Services;
 
 public interface IReviewComponentQueryService
 {
-    Task<ReviewComponent?> Handle(GetAllReviewComponentByIdQuery query);
+    Task<IEnumerable<ReviewComponent>> Handle(GetAllReviewComponentByComponentIdQuery query);
 }

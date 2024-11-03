@@ -6,30 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Interaction.Interfaces.Rest;
+[ApiController]
+[Route("/api/v1/[controller]")]
+[SwaggerTag("Available Review Component Endpoints")]
 
 public class ReviewComponentController(IReviewComponentCommandService reviewComponentCommandService, 
     IReviewComponentQueryService reviewComponentQueryService) : ControllerBase
 {
     [HttpGet("{componentId:int}")]
     [SwaggerOperation(
-        Summary = "Get a review by its Component id",
-        Description = "Get a review by its id",
-        OperationId = "GetReviewComponentById")]
-    [SwaggerResponse(StatusCodes.Status200OK, "The review was found", typeof(ReviewComponentResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "No review found")]
-    public async Task<IActionResult> GetAllReviewComponentByIdQuery(int componentId)
+        Summary = "Get a review by Component id",
+        Description = "Get all reviews for a specific Component Id",
+        OperationId = "GetComponentById")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Reviews found", typeof(IEnumerable<ReviewComponentResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "No reviews found")]
+    public async Task<IActionResult> GetAllReviewComponentByComponentIdQuery(int componentId)
     {
-        var getAllReviewComponentByIdQuery = new GetAllReviewComponentByIdQuery(componentId);
-        var review = await reviewComponentQueryService.Handle(getAllReviewComponentByIdQuery);
-        if (review is null)
+        var getAllReviewComponentByComponentIdQuery = new GetAllReviewComponentByComponentIdQuery(componentId);
+        var reviews = await reviewComponentQueryService.Handle(getAllReviewComponentByComponentIdQuery);
+
+        if (reviews == null || !reviews.Any())
         {
             return NotFound();
         }
-        var resource = ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity(review);
-        return Ok(resource);
+
+        var resources = reviews.Select(ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
     }
-    
-    
     
     [HttpPost]
     [SwaggerOperation(
@@ -47,6 +50,6 @@ public class ReviewComponentController(IReviewComponentCommandService reviewComp
             return BadRequest();
         }
         var reviewComponentResource = ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity(review);
-        return CreatedAtAction(nameof(GetAllReviewComponentByIdQuery), new { componentId = review.Id }, reviewComponentResource);
+        return CreatedAtAction(nameof(GetAllReviewComponentByComponentIdQuery), new { componentId = review.Id }, reviewComponentResource);
     }
 }

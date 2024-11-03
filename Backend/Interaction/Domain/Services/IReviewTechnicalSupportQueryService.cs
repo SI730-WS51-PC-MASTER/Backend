@@ -5,5 +5,5 @@ namespace Backend.Interaction.Domain.Services;
 
 public interface IReviewTechnicalSupportQueryService
 {
-    Task<ReviewTechnicalSupport?> Handle(GetAllReviewTechnicalSupportByIdQuery query);
+    Task<IEnumerable<ReviewTechnicalSupport>> Handle(GetAllReviewTechnicalSupportByTechnicalSupportIdQuery query);
 }

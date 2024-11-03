@@ -1,5 +1,6 @@
 using Backend.Interaction.Application.Internal.CommandServices;
 using Backend.Interaction.Application.Internal.QueryServices;
+using Backend.Interaction.Domain.Repositories;
 using Backend.Interaction.Domain.Services;
 using Backend.Interaction.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Domain.Repositories;
