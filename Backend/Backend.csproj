@@ -18,11 +18,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Application\ACL\" />
-      <Folder Include="Components\Application\Internal\CommandServices\" />
-      <Folder Include="Components\Application\Internal\QueryServices\" />
-      <Folder Include="Components\Interfaces\ACL\Resources\" />
-      <Folder Include="Components\Interfaces\REST\Transform\" />
+      <Folder Include="Component\Application\" />
+      <Folder Include="Component\Application\ACL\" />
+      <Folder Include="Component\Application\Internal\CommandServices\" />
+      <Folder Include="Component\Application\Internal\QueryServices\" />
+      <Folder Include="Component\Domain\Model\" />
+      <Folder Include="Component\Interfaces\" />
+      <Folder Include="Component\Interfaces\ACL\Resources\" />
+      <Folder Include="Component\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>

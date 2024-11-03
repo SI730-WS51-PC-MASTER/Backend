@@ -1,4 +1,4 @@
-namespace Backend.Products.Domain.Model.ValueObjects;
+namespace Backend.Component.Domain.Model.ValueObjects;
 
 public record Categories(List<string> Type)
 {

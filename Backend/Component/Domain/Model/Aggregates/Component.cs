@@ -1,15 +1,15 @@
 using Backend.Component.Domain.Model.Commands;
-using Backend.Products.Domain.Model.ValueObjects;
+using Backend.Component.Domain.Model.ValueObjects;
 
-namespace Backend.Products.Domain.Model.Aggregates;
+namespace Backend.Component.Domain.Model.Aggregates;
 
 public partial class Component
 {
-    public int id { get; }
+    public int Id { get; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public float Price { get; private set; }
-    public int stock { get; private set; }
+    public int Stock { get; private set; }
     public string ProviderId { get; set; }
     public Image Image { get; set; } = new Image();
     public int Ratings { get; set; }
@@ -19,11 +19,11 @@ public partial class Component
 
     public Component(int id, string name, string description, float price, int stock, string providerId, int ratings, string country)
     {
-        this.id = id;
+        this.Id = id;
         Name = name;
         Description = description;
         Price = price;
-        this.stock = stock;
+        this.Stock = stock;
         ProviderId = providerId;
         Ratings = ratings;
         Country = country;
