@@ -56,11 +56,11 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.0-rc.2.24474.1, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[9.0.0-rc.2.24474.1, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Relational.Design": {
               "target": "Package",
@@ -68,7 +68,7 @@
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.0-preview, )"
+              "version": "[8.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

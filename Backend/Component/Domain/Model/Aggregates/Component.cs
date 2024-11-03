@@ -5,7 +5,7 @@ namespace Backend.Component.Domain.Model.Aggregates;
 
 public partial class Component
 {
-    public int Id { get; }
+    public int ComponentId { get; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public float Price { get; private set; }
@@ -17,10 +17,10 @@ public partial class Component
     public Attributes Attributes { get; set; } = new Attributes();
     public string Country { get; set; }
 
-    public Component(int id, string name, string description, float price, int stock, string providerId, int ratings, string country)
+    public Component(int componentId, string name, string description, float price, int stock, string providerId, int ratings, string country)
     {
-        this.Id = id;
-        Name = name;
+        this.ComponentId = componentId;
+        this.Name = name;
         Description = description;
         Price = price;
         this.Stock = stock;
