@@ -1,3 +1,3 @@
 namespace Backend.TechnicalSupport.Interfaces.REST.Resources;
 
-public record CreateTechnicalSupportResource(string TechnicalSupportApiKey, string TechnicianId, string SupportType, string DateOfRequest, string StartDate, string EndDate);
+public record CreateTechnicalSupportResource(string TechnicianId, bool SupportType, DateTime DateOfRequest, DateTime StartDate, DateTime EndDate);

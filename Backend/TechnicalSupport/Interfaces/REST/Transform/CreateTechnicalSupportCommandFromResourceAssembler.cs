@@ -7,6 +7,6 @@ public class CreateTechnicalSupportCommandFromResourceAssembler
 {
     public static CreateTechnicalSupportCommand ToCommandFromResource(CreateTechnicalSupportResource resource)
     {
-        return new CreateTechnicalSupportCommand(resource.TechnicalSupportApiKey, resource.TechnicianId, resource.SupportType, resource.DateOfRequest, resource.StartDate, resource.EndDate);
+        return new CreateTechnicalSupportCommand(resource.TechnicianId, resource.SupportType, resource.DateOfRequest, resource.StartDate, resource.EndDate);
     }
 }

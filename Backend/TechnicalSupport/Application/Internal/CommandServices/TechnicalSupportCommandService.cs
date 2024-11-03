@@ -18,14 +18,14 @@ public class TechnicalSupportCommandService(ITechnicalSupportRepository technica
     /// </summary>
     /// <param name="command"> The command containing data to create the TechnicalSupport entity </param>
     /// <returns> The newly created TechnicalSupport entity, or null if creation fails. </returns>
-    /// <exception cref="Exception"> Thrown when an TechnicalSupport entity associated with the provided TechnicalSupportApiKey and TechnicianId already exists. </exception>
+    /// <exception cref="Exception"> Thrown when a TechnicalSupport entity associated with the provided SupportType and TechnicianId already exists. </exception>
     public async Task<TechnicalSupport?> Handle(CreateTechnicalSupportCommand command)
     {
-        // Check if an TechnicalSupport entity with the given TechnicalSupportApiKey and TechnicianId already exists
+        // Check if a TechnicalSupport entity with the given SupportType and TechnicianId already exists
         var technicalSupport = 
-            await technicalSupportRepository.FindByTechnicalSupportApiKeyAndTechnicianIdAsync(command.TechnicalSupportApiKey, command.TechnicianId);
+            await technicalSupportRepository.FindBySupportTypeAndTechnicianIdAsync(command.SupportType, command.TechnicianId);
         if (technicalSupport != null) 
-            throw new Exception($"TechnicalSupport entity with technical support api key '{command.TechnicalSupportApiKey}' " +
+            throw new Exception($"TechnicalSupport entity with support type '{command.SupportType}' " +
                                 $"and technician Id '{command.TechnicianId}' already exists.");
         // Create a new TechnicalSupport entity from the command data
         technicalSupport = new TechnicalSupport(command);

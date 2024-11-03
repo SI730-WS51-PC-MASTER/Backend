@@ -4,12 +4,22 @@ namespace Backend.TechnicalSupport.Domain.Services;
 
 public interface ITechnicalSupportQueryService
 {
-    Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportByApiKeyQuery query);
-    
-    Task<TechnicalSupport> Handle(GetTechnicalSupportByApiKeyAndTechnicianIdQuery query);
+    /// <summary>
+    /// Retrieves all Technical Support records that match a specified support type.
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportBySupportTypeQuery query);
     
     /// <summary>
-    /// 
+    /// Retrieves a specific Technical Support record based on support type and technician ID.
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    Task<TechnicalSupport> Handle(GetTechnicalSupportBySupportTypeAndTechnicianIdQuery query);
+    
+    /// <summary>
+    /// Retrieves a specific Technical Support record by its unique identifier.
     /// </summary>
     /// <param name="query"></param>
     /// <returns></returns>

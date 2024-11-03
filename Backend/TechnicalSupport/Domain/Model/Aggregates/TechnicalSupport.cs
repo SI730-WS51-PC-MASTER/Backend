@@ -5,27 +5,47 @@ namespace Backend.TechnicalSupport;
 
 public class TechnicalSupport
 {
+    /// <summary>
+    /// Entity Identifier
+    /// </summary>
     public int Id { get; }
-    public string TechnicalSupportApiKey { get; set; }
+    
+    /// <summary>
+    /// Foreign Key
+    /// </summary>
     public string TechnicianId { get; set; }
-    public string SupportType { get; set; }
-    public string DateOfRequest { get; set; }
-    public string StartDate { get; set; }
-    public string EndDate { get; set; }
+    
+    /// <summary>
+    /// SupportType that could be Home meeting (If true) or Zoom meeting (If false)
+    /// </summary>
+    public bool SupportType { get; set; }
+    
+    /// <summary>
+    /// The exact date of the technical support request submitted
+    /// </summary>
+    public DateTime DateOfRequest { get; set; }
+    
+    /// <summary>
+    /// Meeting Starting Date Range 
+    /// </summary>
+    public DateTime StartDate { get; set; }
+    
+    /// <summary>
+    /// Meeting Ending Date Range
+    /// </summary>
+    public DateTime EndDate { get; set; }
    
     protected TechnicalSupport()
     {
-        TechnicalSupportApiKey = string.Empty;
         TechnicianId = string.Empty;  
-        SupportType = string.Empty;
-        DateOfRequest = string.Empty;
-        StartDate = string.Empty;
-        EndDate = string.Empty;
+        SupportType = false;
+        DateOfRequest = DateTime.Now;
+        StartDate = DateTime.Now;
+        EndDate = StartDate.AddDays(2);
     }
 
     public TechnicalSupport(CreateTechnicalSupportCommand command)
     {
-        TechnicalSupportApiKey = command.TechnicalSupportApiKey;
         TechnicianId = command.TechnicianId;
         SupportType = command.SupportType;
         DateOfRequest = command.DateOfRequest;
@@ -35,7 +55,6 @@ public class TechnicalSupport
     
     public void UpdateProperties(UpdateTechnicalSupportCommand command)
     {
-        this.TechnicalSupportApiKey = command.TechnicalSupportApiKey;
         this.TechnicianId = command.TechnicianId;
         this.SupportType = command.SupportType;
         this.DateOfRequest = command.DateOfRequest;

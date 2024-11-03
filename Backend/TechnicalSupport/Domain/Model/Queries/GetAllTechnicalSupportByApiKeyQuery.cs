@@ -1,3 +1,0 @@
-namespace Backend.TechnicalSupport.Domain.Model.Queries;
-
-public record GetAllTechnicalSupportByApiKeyQuery(string TechnicalSupportApiKey);

@@ -15,6 +15,11 @@ namespace Backend.TechnicalSupport.Interfaces.REST;
 public class TechnicianController(ITechnicianCommandService commandService, 
     ITechnicianQueryService queryService) : ControllerBase
 {
+    /// <summary>
+    /// Creates a new technician based on the provided resource.
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> GetTechnicians([FromBody] CreateTechnicianResource resource)
     {
@@ -26,7 +31,13 @@ public class TechnicianController(ITechnicianCommandService commandService,
         TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
-    private async Task<ActionResult> GetTechniciansByName(string name)
+    /// <summary>
+    /// Gets technicians by their name.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [HttpGet("by-name/{name}")]
+    public async Task<ActionResult> GetTechniciansByName(string name)
     {
         var getTechniciansByName = new GetTechnicianByNameQuery(name);
         var result = await queryService.Handle(getTechniciansByName);
@@ -35,7 +46,13 @@ public class TechnicianController(ITechnicianCommandService commandService,
         return Ok(resources);
     }
     
-    private async Task<ActionResult> GetTechniciansByStars(int stars)
+    /// <summary>
+    /// Gets technicians by their stars rating.
+    /// </summary>
+    /// <param name="stars"></param>
+    /// <returns></returns>
+    [HttpGet("by-stars/{stars}")]
+    public async Task<ActionResult> GetTechniciansByStars(int stars)
     {
         var getTechniciansByStars = new GetTechnicianByStarsQuery(stars);
         var result = await queryService.Handle(getTechniciansByStars);
@@ -44,12 +61,18 @@ public class TechnicianController(ITechnicianCommandService commandService,
         return Ok(resources);
     }
 
+    /// <summary>
+    /// Gets technicians based on optional query parameters for name or star rating.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="stars"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult> GetTechnicianFromQuery([FromQuery] string? name = null, [FromQuery] int? stars = null)
     {
         if (!string.IsNullOrEmpty(name))
         {
-            // Buscar técnicos por nombre
+            // Search technicians by name
             var getTechniciansByName = new GetTechnicianByNameQuery(name);
             var result = await queryService.Handle(getTechniciansByName);
             if (result is null) return NotFound();
@@ -59,7 +82,7 @@ public class TechnicianController(ITechnicianCommandService commandService,
         }
         else if (stars.HasValue)
         {
-            // Buscar técnicos por estrellas
+            // Search technicians by stars number
             var getTechniciansByStars = new GetTechnicianByStarsQuery(stars.Value);
             var result = await queryService.Handle(getTechniciansByStars);
             if (result is null) return NotFound();
@@ -69,11 +92,16 @@ public class TechnicianController(ITechnicianCommandService commandService,
         }
         else
         {
-            // Si no se especifica ni nombre ni estrellas, devolvemos BadRequest
+            // If neither name nor stars are specified, we return BadRequest
             return BadRequest("Debe especificar un parámetro de consulta, ya sea 'name' o 'stars'.");
         }
     }
     
+    /// <summary>
+    /// Gets a technician by their identifier.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<ActionResult> GetTechnicianById(int id)
     {
@@ -84,6 +112,12 @@ public class TechnicianController(ITechnicianCommandService commandService,
         return Ok(resources);
     }
     
+    /// <summary>
+    /// Updates an existing technician's information.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="resource"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTechnicianSupport(int id, [FromBody] UpdateTechnicianResource resource)
     {
@@ -95,6 +129,11 @@ public class TechnicianController(ITechnicianCommandService commandService,
         return Ok(TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
+    /// <summary>
+    /// Deletes a technician by their identifier.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTechnicianSupport(int id)
     {

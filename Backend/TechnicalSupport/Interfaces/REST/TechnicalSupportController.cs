@@ -15,6 +15,14 @@ namespace Backend.TechnicalSupport.Interfaces.REST;
 public class TechnicalSupportController(ITechnicalSupportCommandService commandService, 
     ITechnicalSupportQueryService queryService) : ControllerBase
 {
+    /// <summary>
+    /// Creates a new technical support record.
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <returns>
+    /// A 201 Created response with the created technical support resource,
+    /// or a 400 Bad Request if creation fails.
+    /// </returns>
     [HttpPost]
     public async Task<IActionResult> GetTechnicalSupports([FromBody] CreateTechnicalSupportResource resource)
     {
@@ -25,33 +33,55 @@ public class TechnicalSupportController(ITechnicalSupportCommandService commandS
         return CreatedAtAction(nameof(GetTechnicalSupportById), new { id = result.Id},
         TechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
-
-    private async Task<ActionResult> GetAllTechnicalSupportByApiKey(string technicalSupportApiKey)
+    
+    /// <summary>
+    /// Retrieves all technical support records filtered by support type.
+    /// </summary>
+    /// <param name="supportType"></param>
+    /// <returns> A collection of technical support resources. </returns>
+    private async Task<ActionResult> GetAllTechnicalSupportBySupportType(bool supportType)
     {
-        var getAllTechnicalSupportByApiKey =
-            new GetAllTechnicalSupportByApiKeyQuery(technicalSupportApiKey);
-        var result = await queryService.Handle(getAllTechnicalSupportByApiKey);
+        var getAllTechnicalSupportBySupportType =
+            new GetAllTechnicalSupportBySupportTypeQuery(supportType);
+        var result = await queryService.Handle(getAllTechnicalSupportBySupportType);
         var resources = result.Select(TechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
     
-    private async Task<ActionResult> GetTechnicalSupportByApiKeyAndTechniciansId(string technicalSupportApiKey, string technicianId)
+    /// <summary>
+    /// Retrieves a specific technical support record by support type and technician ID.
+    /// </summary>
+    /// <param name="supportType"></param>
+    /// <param name="technicianId"></param>
+    /// <returns> The technical support resource if found, or a 404 Not Found if not. </returns>
+    private async Task<ActionResult> GetTechnicalSupportBySupportTypeAndTechniciansId(bool supportType, string technicianId)
     {
-        var getTechnicalSupportByApiKeyAndTechniciansId = new GetTechnicalSupportByApiKeyAndTechnicianIdQuery(technicalSupportApiKey, technicianId);
-        var result = await queryService.Handle(getTechnicalSupportByApiKeyAndTechniciansId);
+        var getTechnicalSupportBySupportTypeAndTechniciansId = new GetTechnicalSupportBySupportTypeAndTechnicianIdQuery(supportType, technicianId);
+        var result = await queryService.Handle(getTechnicalSupportBySupportTypeAndTechniciansId);
         if (result is null) return NotFound();
         var resources = TechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resources);
     }
 
+    /// <summary>
+    /// Retrieves technical support records based on query parameters.
+    /// </summary>
+    /// <param name="supportType"></param>
+    /// <param name="technicianId"></param>
+    /// <returns> A collection of technical support resources. </returns>
     [HttpGet]
-    public async Task<ActionResult> GetTechnicalSupportFromQuery([FromQuery] string technicalSupportApiKey, [FromQuery] string technicianId = "")
+    public async Task<ActionResult> GetTechnicalSupportFromQuery([FromQuery] bool supportType, [FromQuery] string technicianId = "")
     {
         return string.IsNullOrEmpty(technicianId) 
-            ? await GetAllTechnicalSupportByApiKey(technicalSupportApiKey)
-            : await GetTechnicalSupportByApiKeyAndTechniciansId(technicalSupportApiKey, technicianId);
+            ? await GetAllTechnicalSupportBySupportType(supportType)
+            : await GetTechnicalSupportBySupportTypeAndTechniciansId(supportType, technicianId);
     }
     
+    /// <summary>
+    /// Retrieves a specific technical support record by its unique identifier.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns> The technical support resource if found, or a 404 Not Found if not. </returns>
     [HttpGet("{id}")]
     public async Task<ActionResult> GetTechnicalSupportById(int id)
     {
@@ -62,6 +92,12 @@ public class TechnicalSupportController(ITechnicalSupportCommandService commandS
         return Ok(resources);
     }
     
+    /// <summary>
+    /// Updates an existing technical support record.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="resource"></param>
+    /// <returns> The updated technical support resource, or a 404 Not Found if the record does not exist. </returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTechnicalSupport(int id, [FromBody] UpdateTechnicalSupportResource resource)
     {
@@ -73,6 +109,14 @@ public class TechnicalSupportController(ITechnicalSupportCommandService commandS
         return Ok(TechnicalSupportResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
+    /// <summary>
+    /// Deletes a technical support record by its unique identifier.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>
+    /// A 204 No Content response if the deletion was successful,
+    /// or a 404 Not Found if the record does not exist.
+    /// </returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTechnicalSupport(int id)
     {

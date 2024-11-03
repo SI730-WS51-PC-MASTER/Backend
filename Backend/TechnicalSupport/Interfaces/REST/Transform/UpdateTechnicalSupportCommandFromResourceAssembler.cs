@@ -10,7 +10,6 @@ public class UpdateTechnicalSupportCommandFromResourceAssembler
         return new UpdateTechnicalSupportCommand
         (
             Id: id,
-            TechnicalSupportApiKey: resource.TechnicalSupportApiKey,
             TechnicianId: resource.TechnicianId,
             SupportType: resource.SupportType,
             DateOfRequest: resource.DateOfRequest,

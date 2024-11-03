@@ -19,7 +19,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<TechnicalSupport.TechnicalSupport>().HasKey(f => f.Id);
         builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.TechnicianId).IsRequired();
-        builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.TechnicalSupportApiKey).IsRequired();
         builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.SupportType).IsRequired();
         builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.DateOfRequest).IsRequired();
         builder.Entity<TechnicalSupport.TechnicalSupport>().Property(f => f.StartDate).IsRequired();

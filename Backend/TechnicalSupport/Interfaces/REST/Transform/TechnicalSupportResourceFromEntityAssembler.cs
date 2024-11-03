@@ -7,6 +7,6 @@ public static class TechnicalSupportResourceFromEntityAssembler
 {
     public static TechnicalSupportResource ToResourceFromEntity(TechnicalSupport entity)
     {
-        return new TechnicalSupportResource(entity.Id, entity.TechnicalSupportApiKey, entity.TechnicianId, entity.DateOfRequest, entity.StartDate, entity.EndDate);
+        return new TechnicalSupportResource(entity.Id, entity.TechnicianId, entity.SupportType, entity.DateOfRequest, entity.StartDate, entity.EndDate);
     }
 }

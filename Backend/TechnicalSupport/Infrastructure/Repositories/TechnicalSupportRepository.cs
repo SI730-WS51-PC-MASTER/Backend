@@ -8,14 +8,14 @@ namespace Backend.TechnicalSupport.Infrastructure.Repositories;
 public class TechnicalSupportRepository(AppDbContext ctx)
 : BaseRepository<TechnicalSupport>(ctx), ITechnicalSupportRepository
 {
-    public async Task<IEnumerable<TechnicalSupport>> FindByTechnicalSupportApiKeyAsync(string technicalSupportApiKey)
+    public async Task<IEnumerable<TechnicalSupport>> FindBySupportTypeAsync(bool supportType)
     {
-        return await Context.Set<TechnicalSupport>().Where(f=>f.TechnicalSupportApiKey == technicalSupportApiKey).ToListAsync();
+        return await Context.Set<TechnicalSupport>().Where(f=>f.SupportType == supportType).ToListAsync();
     }
 
-    public async Task<TechnicalSupport?> FindByTechnicalSupportApiKeyAndTechnicianIdAsync(string technicalSupportApiKey, string technicianId)
+    public async Task<TechnicalSupport?> FindBySupportTypeAndTechnicianIdAsync(bool supportType, string technicianId)
     {
-        return await Context.Set<TechnicalSupport>().FirstOrDefaultAsync(f=>f.TechnicalSupportApiKey == technicalSupportApiKey && f.TechnicianId == technicianId);
+        return await Context.Set<TechnicalSupport>().FirstOrDefaultAsync(f=>f.SupportType == supportType && f.TechnicianId == technicianId);
     }
     
     public async Task UpdateAsync(TechnicalSupport technicalSupport)

@@ -6,33 +6,33 @@ namespace Backend.TechnicalSupport.Application.Internal.QueryServices;
 
 /// <summary>
 /// Service to handle query operations for the TechnicalSupport entity. This service provides methods 
-/// to retrieve TechnicalSupport instances by various criteria, including API key, technician ID, and ID (the TechnicalSupport entity identifier).
+/// to retrieve TechnicalSupport instances by various criteria, including SupportType, TechnicianId, and Id (the TechnicalSupport entity identifier).
 /// </summary>
 /// <param name="technicalSupportRepository"> The repository interface for accessing TechnicalSupport data. </param>
 public class TechnicalSupportQueryService(ITechnicalSupportRepository technicalSupportRepository) : ITechnicalSupportQueryService
 {
     /// <summary>
-    /// Retrieves all TechnicalSupport entities associated with a specified Technical Support API key.
+    /// Retrieves all TechnicalSupport entities associated with a specified Support Type.
     /// </summary>
-    /// <param name="query"> The query containing the Technical Support API key. </param>
-    /// <returns> An enumerable collection of TechnicalSupport entities associated with the provided API key. </returns>
-    public async Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportByApiKeyQuery query)
+    /// <param name="query"> The query containing the Support Type. </param>
+    /// <returns> An enumerable collection of TechnicalSupport entities associated with the provided Support Type. </returns>
+    public async Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportBySupportTypeQuery query)
     {
-        return await technicalSupportRepository.FindByTechnicalSupportApiKeyAsync(query.TechnicalSupportApiKey);
+        return await technicalSupportRepository.FindBySupportTypeAsync(query.SupportType);
     }
 
     /// <summary>
-    /// Retrieves a single TechnicalSupport entity by a specified Technical Support API key and Technician ID.
+    /// Retrieves a single TechnicalSupport entity by a specified Support Type and Technician ID.
     /// </summary>
-    /// <param name="query"> The query containing the Technical Support API key and Technician ID. </param>
-    /// <returns> The TechnicalSupport entity associated with the specified API key and Technician ID, if found; otherwise, null. </returns>
-    public async Task<TechnicalSupport> Handle(GetTechnicalSupportByApiKeyAndTechnicianIdQuery query)
+    /// <param name="query"> The query containing the Support Type and Technician ID. </param>
+    /// <returns> The TechnicalSupport entity associated with the specified Support Type and Technician ID, if found; otherwise, null. </returns>
+    public async Task<TechnicalSupport> Handle(GetTechnicalSupportBySupportTypeAndTechnicianIdQuery query)
     {
-        return await technicalSupportRepository.FindByTechnicalSupportApiKeyAndTechnicianIdAsync(query.TechnicalSupportApiKey, query.TechnicianId);
+        return await technicalSupportRepository.FindBySupportTypeAndTechnicianIdAsync(query.SupportType, query.TechnicianId);
     }
 
     /// <summary>
-    /// Retrieves an TechnicalSupport entity by its unique identifier.
+    /// Retrieves a TechnicalSupport entity by its unique identifier.
     /// </summary>
     /// <param name="query"> The query containing the unique identifier of the TechnicalSupport entity. </param>
     /// <returns> The TechnicalSupport entity with the specified ID, if found; otherwise, null. </returns>
