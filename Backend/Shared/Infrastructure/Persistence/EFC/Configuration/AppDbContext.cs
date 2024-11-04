@@ -1,3 +1,4 @@
+using Backend.Orders.Domain.Model.Aggregates;
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<FavoriteSource>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<FavoriteSource>().Property(f => f.SourceId).IsRequired();
         builder.Entity<FavoriteSource>().Property(f => f.NewsApiKey).IsRequired();*/
+        
+        
+        
+        
+        
+        
+        // Cart DbSet
+        builder.Entity<Cart>().HasKey(f => f.Id);
+        builder.Entity<Cart>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Cart>().Property(f => f.ComponentId).IsRequired();
+        builder.Entity<Cart>().Property(f => f.UserId).IsRequired();
+        builder.Entity<Cart>().Property(f => f.Quantity).IsRequired();
+        builder.Entity<Cart>().Property(f => f.CreatedDate).IsRequired();
+        builder.Entity<Cart>().Property(f => f.UpdatedDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
 
