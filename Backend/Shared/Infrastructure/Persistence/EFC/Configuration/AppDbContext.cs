@@ -1,4 +1,6 @@
 using Backend.Interaction.Domain.Model.Aggregates;
+using Backend.Orders.Domain.Model.Aggregates;
+
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +56,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<ReviewTechnicalSupport>().Property(c => c.TechnicalSupport).IsRequired();
         
         
+        
+        
+        
+        
+        
+        
+        // Cart DbSet
+        builder.Entity<Cart>().HasKey(f => f.Id);
+        builder.Entity<Cart>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Cart>().Property(f => f.ComponentId).IsRequired();
+        builder.Entity<Cart>().Property(f => f.UserId).IsRequired();
+        builder.Entity<Cart>().Property(f => f.Quantity).IsRequired();
+        builder.Entity<Cart>().Property(f => f.CreatedDate).IsRequired();
+        builder.Entity<Cart>().Property(f => f.UpdatedDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
     }

@@ -19,6 +19,15 @@ using Backend.TechnicalSupport.Domain.Services;
 using Backend.TechnicalSupport.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+
+// Cart
+using Backend.Orders;
+using Backend.Orders.Application.Internal.CommandServices;
+using Backend.Orders.Application.Internal.QueryServices;
+using Backend.Orders.Domain.Repositories;
+using Backend.Orders.Domain.Services;
+using Backend.Orders.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -92,6 +101,17 @@ builder.Services.AddScoped<IComponentRepository, ComponentRepository>();
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
 builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
 */
+
+
+
+
+
+
+
+// Injection for Cart
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartQueryService, CartQueryService>();
+builder.Services.AddScoped<ICartCommandService, CartCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();
