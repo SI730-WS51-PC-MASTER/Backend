@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Backend.Shared.Interfaces.ASAP.Configuration.Extensions;
+namespace Backend.Shared.Infrastructure.Interfaces.ASAP.Configuration.Extensions;
 
 public static partial class StringExtensions
 {
