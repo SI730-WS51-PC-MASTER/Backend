@@ -1,6 +1,13 @@
+using Backend.Orders.Domain.Model.Aggregates;
+using Backend.Shared.Domain.Repositories;
+
 namespace Backend.Orders.Domain.Repositories;
 
-public class ICartRepository
+public interface ICartRepository : IBaseRepository<Cart>
 {
+    // Cart interface repository
     
+    Task<IEnumerable<Cart>> FindByUserIdAsync(int userId);
+
+    Task<Cart?> FindByComponentIdAsync(int productId);
 }

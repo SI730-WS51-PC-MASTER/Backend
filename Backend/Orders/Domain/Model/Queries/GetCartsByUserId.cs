@@ -1,6 +1,3 @@
 namespace Backend.Orders.Domain.Model.Queries;
 
-public class GetCartsByUserId
-{
-    
-}
+public record GetCartsByUserId(int UserId);

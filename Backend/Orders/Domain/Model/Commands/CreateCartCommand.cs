@@ -1,3 +1,6 @@
 namespace Backend.Orders.Domain.Model.Commands;
 
-public record CreateCartCommand();
+/// <summary>
+///  Command to create a cart
+/// </summary>
+public record CreateCartCommand(int ComponentId, int UserId, int Quantity);

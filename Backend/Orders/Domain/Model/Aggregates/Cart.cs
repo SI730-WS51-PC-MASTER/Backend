@@ -1,6 +1,8 @@
+using Backend.Orders.Domain.Model.Commands;
+
 namespace Backend.Orders.Domain.Model.Aggregates;
 
-public class Carts
+public partial class Cart
 {
     public int Id { get; }
 
@@ -10,7 +12,7 @@ public class Carts
     
     public int Quantity { get; set; }
 
-    protected Carts()
+    protected Cart()
     {
         ComponentId = 0;
         UserId = 0;
@@ -19,7 +21,10 @@ public class Carts
     
     // Command
 
-    //public Carts(CreateCartCommand command)
-    //{
-    //}
+    public Cart(CreateCartCommand command)
+    {
+        ComponentId = command.ComponentId;
+        UserId = command.UserId;
+        Quantity = command.Quantity;
+    }
 }
