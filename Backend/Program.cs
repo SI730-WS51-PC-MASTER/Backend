@@ -1,3 +1,12 @@
+using Backend.Component.Application.Internal.CommandServices;
+using Backend.Component.Application.Internal.QueryServices;
+using Backend.Component.Domain.Repositories;
+using Backend.Component.Domain.Services;
+using Backend.Interaction.Application.Internal.CommandServices;
+using Backend.Interaction.Application.Internal.QueryServices;
+using Backend.Interaction.Domain.Repositories;
+using Backend.Interaction.Domain.Services;
+using Backend.Interaction.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Domain.Repositories;
 using Backend.Shared.Infrastructure.Interfaces.ASAP.Configuration;
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -56,6 +65,8 @@ else if (builder.Environment.IsProduction())
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Bounded Context Injection Configuration for Business
+
+//Technical Support BC
 builder.Services.AddScoped<ITechnicalSupportRepository, TechnicalSupportRepository>();
 builder.Services.AddScoped<ITechnicalSupportQueryService, TechnicalSupportQueryService>();
 builder.Services.AddScoped<ITechnicalSupportCommandService, TechnicalSupportCommandService>();
@@ -63,6 +74,24 @@ builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
 builder.Services.AddScoped<ITechnicianQueryService, TechnicianQueryService>();
 builder.Services.AddScoped<ITechnicianCommandService, TechnicianCommandService>();
 
+//Interaction BC
+builder.Services.AddScoped<IReviewComponentRepository, ReviewComponentRepository>();
+builder.Services.AddScoped<IReviewComponentQueryService, ReviewComponentQueryService>();
+builder.Services.AddScoped<IReviewComponentCommandService, ReviewComponentCommandService>();
+builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSupportRepository>();
+builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
+builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
+
+/*
+//Component BC
+builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
+builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
+builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
+//ERROR IN COMPONENT REPOSITORY: NOT ACCESS
+builder.Services.AddScoped<IComponentRepository, ComponentRepository>();
+builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
+builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
+*/
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

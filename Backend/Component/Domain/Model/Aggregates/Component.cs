@@ -3,7 +3,7 @@ using Backend.Component.Domain.Model.ValueObjects;
 
 namespace Backend.Component.Domain.Model.Aggregates;
 
-public partial class Component
+public class Component
 {
     public int ComponentId { get; }
     public string Name { get; private set; }

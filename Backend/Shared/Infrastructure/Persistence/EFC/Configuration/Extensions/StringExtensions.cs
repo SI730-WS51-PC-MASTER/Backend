@@ -1,6 +1,6 @@
 using Humanizer;
 
-namespace Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
+namespace Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 public static class StringExtensions
 {
