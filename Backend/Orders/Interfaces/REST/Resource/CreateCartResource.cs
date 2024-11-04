@@ -1,6 +1,3 @@
 namespace Backend.Orders.Interfaces.REST.Resource;
 
-public class CreateCartResource
-{
-    
-}
+public record CreateCartResource(int ComponentId, int UserId, int Quantity);
