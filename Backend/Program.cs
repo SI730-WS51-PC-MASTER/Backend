@@ -4,6 +4,15 @@ using Backend.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Interfaces.ASAP.Configuration;
 using Microsoft.EntityFrameworkCore;
 
+
+// Cart
+using Backend.Orders;
+using Backend.Orders.Application.Internal.CommandServices;
+using Backend.Orders.Application.Internal.QueryServices;
+using Backend.Orders.Domain.Repositories;
+using Backend.Orders.Domain.Services;
+using Backend.Orders.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -53,6 +62,17 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
 builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
+
+
+
+
+
+
+
+// Injection for Cart
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartQueryService, CartQueryService>();
+builder.Services.AddScoped<ICartCommandService, CartCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();
