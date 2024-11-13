@@ -1,6 +1,6 @@
 using Backend.Component.Domain.Model.Commands;
+using Backend.Component.Domain.Repositories;
 using Backend.Component.Domain.Services;
-using Backend.Component.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Shared.Domain.Repositories;
 
 namespace Backend.Component.Application.Internal.CommandServices;
@@ -18,7 +18,7 @@ public class ComponentCommandService(
             await componentRepository.AddAsync();
             await unitOfWork.CompleteAsync();
             return component;
-        } catch (Exception e)
+        } catch (Exception)
         {
             return null;
         }

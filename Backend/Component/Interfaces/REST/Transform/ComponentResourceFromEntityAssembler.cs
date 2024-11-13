@@ -14,10 +14,10 @@ public class ComponentResourceFromEntityAssembler
                 component.Price,
                 component.Stock,
                 component.ProviderId,
-                new Image(component.Image.Main, component.Image.Secondary),
+                component.Image,
                 component.Ratings,
-                new Categories(component.Categories.Type),
-                new Attributes(component.Attributes.AttributeList),
+                new AttributesResource(component.Attributes.AttributeList),
+                new CategoriesResource(component.Categories.CategoriesList),
                 component.Country
             );
         }

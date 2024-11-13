@@ -5,11 +5,11 @@ namespace Backend.Component.Interfaces.REST.Resources
         string? Description,
         float Price,
         int Stock,
-        string ProviderId,
+        int ProviderId,
         string Image,
         int Ratings,
-        Dictionary<string, string> Attributes,
-        List<string> Categories,
+        AttributesResource Attributes,
+        CategoriesResource Categories,
         string Country
     );
 }

@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Backend.Interaction.Domain.Model.Aggregates;
 using Backend.Orders.Domain.Model.Aggregates;
-
+using Backend.Component.Domain.Model.Aggregates;
+using Backend.Component.Domain.Model.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json; 
 using Backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -55,13 +60,58 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<ReviewTechnicalSupport>().Property(c => c.TechnicalSupportId).IsRequired();
         builder.Entity<ReviewTechnicalSupport>().Property(c => c.TechnicalSupport).IsRequired();
         
-        
-        
-        
-        
-        
-        
-        
+         // Configurar Component
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .HasKey(x => x.ComponentId);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.ComponentId).IsRequired().ValueGeneratedOnAdd();
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Name).IsRequired().HasMaxLength(100);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Description).IsRequired().HasMaxLength(500);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Price).IsRequired();
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Stock).IsRequired();
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Image).IsRequired().HasMaxLength(200);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.ProviderId).IsRequired();
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Country).IsRequired().HasMaxLength(50);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .Property(x => x.Ratings);
+
+    // Conversor para AttributeList (Dictionary)
+    var dictionaryToJsonConverter = new ValueConverter<Dictionary<string, string>, string>(
+        v => JsonConvert.SerializeObject(v),
+        v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v)!);
+
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .OwnsOne(c => c.Attributes, a =>
+        {
+            a.Property(x => x.AttributeList)
+                .HasConversion(dictionaryToJsonConverter)  // Aplicar el conversor
+                .HasColumnName("Attributes") // Nombrar la columna como "Categories"
+                .IsRequired();
+        });
+
+    // Conversor para Type (List<string>)
+    var listToJsonConverter = new ValueConverter<List<string>, string>(
+        v => JsonConvert.SerializeObject(v),  // Convertir List<string> a JSON string
+        v => JsonConvert.DeserializeObject<List<string>>(v)!); // Convertir de JSON string a List<string>
+
+    // Configuración para Categories
+    builder.Entity<Component.Domain.Model.Aggregates.Component>()
+        .OwnsOne(c => c.Categories, c =>
+        {
+            // Usar el conversor para convertir List<string> a JSON
+            c.Property(x => x.CategoriesList)
+                .HasConversion(listToJsonConverter)  // Aplicar el conversor
+                .HasColumnName("Categories") // Nombrar la columna como "Categories"
+                .IsRequired();
+        });
+    
         // Cart DbSet
         builder.Entity<Cart>().HasKey(f => f.Id);
         builder.Entity<Cart>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
@@ -73,5 +123,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         builder.UseSnakeCaseNamingConvention();
     }
+    
+       
+
+
     
 }

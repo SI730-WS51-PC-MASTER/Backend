@@ -2,6 +2,7 @@ using Backend.Component.Application.Internal.CommandServices;
 using Backend.Component.Application.Internal.QueryServices;
 using Backend.Component.Domain.Repositories;
 using Backend.Component.Domain.Services;
+using Backend.Component.Infrastructure.Persistence.EFC.Repositories;
 using Backend.Interaction.Application.Internal.CommandServices;
 using Backend.Interaction.Application.Internal.QueryServices;
 using Backend.Interaction.Domain.Repositories;
@@ -91,7 +92,7 @@ builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSup
 builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
 builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
 
-/*
+
 //Component BC
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
@@ -100,7 +101,7 @@ builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
 builder.Services.AddScoped<IComponentRepository, ComponentRepository>();
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
 builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
-*/
+
 
 
 

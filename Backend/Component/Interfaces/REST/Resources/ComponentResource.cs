@@ -8,14 +8,11 @@ namespace Backend.Component.Interfaces.REST.Resources
         string Description,
         float Price,
         int Stock,
-        string ProviderId,
-        Image Image,
+        int ProviderId,
+        string Image,
         int Ratings,
-        Categories Categories,
-        Attributes Attributes,
+        AttributesResource Attributes,
+        CategoriesResource  Categories,
         string Country
     );
 }
-public abstract record ImageResource(string Main, List<string> Secondary);
-public abstract record CategoriesResource(List<string> Type);
-public abstract record AttributesResource(Dictionary<string, string> AttributeList);

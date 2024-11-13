@@ -55,5 +55,6 @@ public class ComponentController(
         }
         var componentResource = ComponentResourceFromEntityAssembler.ToResource(component);
         return CreatedAtAction(nameof(GetComponentById), new { componentId = component.ComponentId }, componentResource);
+        
     }
 }
