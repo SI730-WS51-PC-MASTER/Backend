@@ -3,7 +3,7 @@ using Backend.Interaction.Domain.Model.Commands;
 
 namespace Backend.Interaction.Domain.Services;
 
-public interface IReviewComponentCommandService
+public interface ITechnicalSupportReviewCommandService
 {
-    Task<ReviewComponent?> Handle(CreateReviewComponentCommand command);
+    Task<TechnicalSupportReview?> Handle(CreateTechnicalSupportReviewCommand command);
 }

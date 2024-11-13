@@ -58,13 +58,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
 builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();*/
-builder.Services.AddScoped<IReviewComponentRepository, ReviewComponentRepository>();
-builder.Services.AddScoped<IReviewComponentQueryService, ReviewComponentQueryService>();
-builder.Services.AddScoped<IReviewComponentCommandService, ReviewComponentCommandService>();
+builder.Services.AddScoped<IComponentReviewRepository, ComponentReviewRepository>();
+builder.Services.AddScoped<IComponentReviewQueryService, ComponentReviewQueryService>();
+builder.Services.AddScoped<IComponentReviewCommandService, ComponentReviewCommandService>();
 
-builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSupportRepository>();
-builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
-builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
+builder.Services.AddScoped<ITechnicalSupportReviewRepository, TechnicalSupportReviewRepository>();
+builder.Services.AddScoped<ITechnicalSupportReviewQueryService, TechnicalSupportReviewQueryService>();
+builder.Services.AddScoped<ITechnicalSupportReviewCommandService, TechnicalSupportReviewCommandService>();
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();

@@ -11,15 +11,15 @@ namespace Backend.Interaction.Interfaces.Rest;
 [Route("/api/v1/[controller]")]
 [SwaggerTag("Available Review Component Endpoints")]
 
-public class ReviewComponentController(IReviewComponentCommandService reviewComponentCommandService, 
-    IReviewComponentQueryService reviewComponentQueryService) : ControllerBase
+public class ComponentReviewController(IComponentReviewCommandService componentReviewCommandService, 
+    IComponentReviewQueryService componentReviewQueryService) : ControllerBase
 {
     [HttpGet("{componentId:int}")]
     [SwaggerOperation(
         Summary = "Get a review by Component id",
         Description = "Get all reviews for a specific Component Id",
         OperationId = "GetComponentById")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Reviews found", typeof(IEnumerable<ReviewComponentResource>))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Reviews found", typeof(IEnumerable<ComponentReviewResource>))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "No reviews found")]
     public async Task<IActionResult> GetAllReviewComponentByComponentIdQuery(int componentId)
     {
@@ -35,8 +35,8 @@ public class ReviewComponentController(IReviewComponentCommandService reviewComp
         return Ok(resources);*/
         
         
-        var reviews = await reviewComponentQueryService.Handle(new GetAllReviewComponentByComponentIdQuery(new ComponentId(componentId)));
-        var reviewsComponentResources = reviews.Select(ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity);
+        var reviews = await componentReviewQueryService.Handle(new GetAllComponentReviewsByComponentIdQuery(new ComponentId(componentId)));
+        var reviewsComponentResources = reviews.Select(ComponentReviewResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(reviewsComponentResources);
     }
     
@@ -45,17 +45,17 @@ public class ReviewComponentController(IReviewComponentCommandService reviewComp
         Summary = "Create a new review component",
         Description = "Create a new review component",
         OperationId = "CreateReviewComponent")]
-    [SwaggerResponse(StatusCodes.Status200OK, "The review was created", typeof(ReviewComponentResource))]
+    [SwaggerResponse(StatusCodes.Status200OK, "The review was created", typeof(ComponentReviewResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The review could not be created")]
-    public async Task<IActionResult> CreateReviewComponentSupport([FromBody] CreateReviewComponentResource resource)
+    public async Task<IActionResult> CreateReviewComponentSupport([FromBody] CreateComponentReviewResource resource)
     {
-        var createReviewComponentCommand = CreateReviewComponentCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var review = await reviewComponentCommandService.Handle(createReviewComponentCommand);
+        var createReviewComponentCommand = CreateComponentReviewCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var review = await componentReviewCommandService.Handle(createReviewComponentCommand);
         if (review is null)
         {
             return BadRequest();
         }
-        var reviewComponentResource = ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity(review);
+        var reviewComponentResource = ComponentReviewResourceFromEntityAssembler.ToResourceFromEntity(review);
         return CreatedAtAction(nameof(GetAllReviewComponentByComponentIdQuery), new { componentId = review.Id }, reviewComponentResource);
     }
 }

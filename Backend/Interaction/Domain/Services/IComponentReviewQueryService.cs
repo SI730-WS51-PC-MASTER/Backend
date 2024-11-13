@@ -3,7 +3,7 @@ using Backend.Interaction.Domain.Model.Queries;
 
 namespace Backend.Interaction.Domain.Services;
 
-public interface IReviewComponentQueryService
+public interface IComponentReviewQueryService
 {
-    Task<IEnumerable<ReviewComponent>> Handle(GetAllReviewComponentByComponentIdQuery query);
+    Task<IEnumerable<ComponentReview>> Handle(GetAllComponentReviewsByComponentIdQuery query);
 }

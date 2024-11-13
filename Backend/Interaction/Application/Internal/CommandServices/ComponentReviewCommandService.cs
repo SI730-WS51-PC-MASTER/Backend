@@ -6,13 +6,13 @@ using Backend.Shared.Domain.Repositories;
 
 namespace Backend.Interaction.Application.Internal.CommandServices;
 /// <summary>
-/// Initializes a new instance of the <see cref="ReviewComponentCommandService"/> class.
+/// Initializes a new instance of the <see cref="ComponentReviewCommandService"/> class.
 /// </summary>
-/// <param name="reviewComponentRepository">Repository for managing component reviews.</param>
+/// <param name="componentReviewRepository">Repository for managing component reviews.</param>
 /// <param name="unitOfWork"></param>
-public class ReviewComponentCommandService(IReviewComponentRepository reviewComponentRepository,
+public class ComponentReviewCommandService(IComponentReviewRepository componentReviewRepository,
     IUnitOfWork unitOfWork)
-    : IReviewComponentCommandService
+    : IComponentReviewCommandService
 {
     /// <summary>
     /// Handles the creation of a new component review.
@@ -22,10 +22,10 @@ public class ReviewComponentCommandService(IReviewComponentRepository reviewComp
     /// A task that represents the asynchronous operation. The result contains the created component review, 
     /// or <c>null</c> if it could not be created.
     /// </returns>
-    public async Task<ReviewComponent?> Handle(CreateReviewComponentCommand command)
+    public async Task<ComponentReview?> Handle(CreateComponentReviewCommand command)
     {
-        var reviewComponent = new ReviewComponent(command);
-        await reviewComponentRepository.AddAsync(reviewComponent);
+        var reviewComponent = new ComponentReview(command);
+        await componentReviewRepository.AddAsync(reviewComponent);
         await unitOfWork.CompleteAsync();
         return reviewComponent;
     }

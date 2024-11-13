@@ -1,9 +1,8 @@
 namespace Backend.Interaction.Domain.Model.Commands;
 
-public record CreateReviewComponentCommand(
+public record CreateComponentReviewCommand(
     int Rating,
     string Comment,
     string UserName,
-    int ComponentId,
-    string ComponentName
+    int ComponentId
     );

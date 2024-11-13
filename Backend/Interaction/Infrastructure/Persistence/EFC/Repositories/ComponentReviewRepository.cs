@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Interaction.Infrastructure.Persistence.EFC.Repositories;
 
-public class ReviewComponentRepository(AppDbContext context) : BaseRepository<ReviewComponent>(context), IReviewComponentRepository
+public class ComponentReviewRepository(AppDbContext context) : BaseRepository<ComponentReview>(context), IComponentReviewRepository
 {
-    public async Task<IEnumerable<ReviewComponent>> FindReviewComponentByComponentIdAsync(int componentId)
+    public async Task<IEnumerable<ComponentReview>> FindReviewComponentByComponentIdAsync(int componentId)
     {
-        return await Context.Set<ReviewComponent>()
+        return await Context.Set<ComponentReview>()
             .Where(reviewComponent => reviewComponent.ComponentId.CompId == componentId)
             .ToListAsync();
     }
