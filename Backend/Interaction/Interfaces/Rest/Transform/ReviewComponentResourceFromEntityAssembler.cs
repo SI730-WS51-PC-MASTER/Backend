@@ -7,6 +7,6 @@ public static class ReviewComponentResourceFromEntityAssembler
 {
     public static ReviewComponentResource ToResourceFromEntity(ReviewComponent entity)
     {
-        return new ReviewComponentResource(entity.Id, entity.Rating, entity.Comment, entity.UserName, entity.ComponentId, entity.ComponentName);
+        return new ReviewComponentResource(entity.Id, entity.Rating, entity.Comment, entity.UserName.Name, entity.ComponentId.CompId, entity.ComponentName.Name);
     }
 }

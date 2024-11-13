@@ -17,6 +17,6 @@ public class ReviewComponentQueryService : IReviewComponentQueryService
 
     public async Task<IEnumerable<ReviewComponent>> Handle(GetAllReviewComponentByComponentIdQuery query)
     {
-        return await _reviewComponentRepository.FindByComponentIdAsync(query.ComponentId);
+        return await _reviewComponentRepository.FindReviewComponentByComponentIdAsync(query.ComponentId.CompId);
     }
 }

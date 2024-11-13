@@ -1,4 +1,5 @@
 using Backend.Interaction.Domain.Model.Queries;
+using Backend.Interaction.Domain.Model.ValueObjects;
 using Backend.Interaction.Domain.Services;
 using Backend.Interaction.Interfaces.Rest.Resources;
 using Backend.Interaction.Interfaces.Rest.Transform;
@@ -22,7 +23,7 @@ public class ReviewComponentController(IReviewComponentCommandService reviewComp
     [SwaggerResponse(StatusCodes.Status404NotFound, "No reviews found")]
     public async Task<IActionResult> GetAllReviewComponentByComponentIdQuery(int componentId)
     {
-        var getAllReviewComponentByComponentIdQuery = new GetAllReviewComponentByComponentIdQuery(componentId);
+        /*var getAllReviewComponentByComponentIdQuery = new GetAllReviewComponentByComponentIdQuery(new ComponentId(componentId));
         var reviews = await reviewComponentQueryService.Handle(getAllReviewComponentByComponentIdQuery);
 
         if (reviews == null || !reviews.Any())
@@ -31,7 +32,12 @@ public class ReviewComponentController(IReviewComponentCommandService reviewComp
         }
 
         var resources = reviews.Select(ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
+        return Ok(resources);*/
+        
+        
+        var reviews = await reviewComponentQueryService.Handle(new GetAllReviewComponentByComponentIdQuery(new ComponentId(componentId)));
+        var reviewsComponentResources = reviews.Select(ReviewComponentResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(reviewsComponentResources);
     }
     
     [HttpPost]
