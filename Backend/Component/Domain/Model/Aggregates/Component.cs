@@ -52,6 +52,9 @@ public class Component
         Image = command.Image;
         Ratings = command.Ratings;
         Attributes = command.Attributes;
+        
+        
+        
         Categories = command.Categories;
         Country = command.Country;
     }

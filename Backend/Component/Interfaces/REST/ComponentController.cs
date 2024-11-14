@@ -3,6 +3,7 @@ using Backend.Component.Domain.Services;
 using Backend.Component.Interfaces.REST.Resources;
 using Backend.Component.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Component.Interfaces.REST;
@@ -47,14 +48,22 @@ public class ComponentController(
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The component could not be created")]
     public async Task<IActionResult> CreateComponent([FromBody] CreateComponentResource resource)
     {
-        var createComponentCommand = CreateComponentCommandFromResourceAssembler.ToCommand(resource);
-        var component = await componentCommandService.Handle(createComponentCommand);
-        if (component is null)
+        Console.WriteLine($"Datos recibidos: {JsonConvert.SerializeObject(resource)}"); // Log temporal
+        try
         {
-            return BadRequest();
+            var createComponentCommand = CreateComponentCommandFromResourceAssembler.ToCommand(resource);
+            var component = await componentCommandService.Handle(createComponentCommand);
+            if (component is null)
+            {
+                return BadRequest("No se pudo crear el componente. Verifique los datos proporcionados.");
+            }
+            var componentResource = ComponentResourceFromEntityAssembler.ToResource(component);
+            return CreatedAtAction(nameof(GetComponentById), new { componentId = component.ComponentId }, componentResource);
         }
-        var componentResource = ComponentResourceFromEntityAssembler.ToResource(component);
-        return CreatedAtAction(nameof(GetComponentById), new { componentId = component.ComponentId }, componentResource);
-        
+        catch (Exception ex)
+        {
+            // Registro del error
+            return BadRequest($"Error: {ex.Message}");
+        }
     }
 }
