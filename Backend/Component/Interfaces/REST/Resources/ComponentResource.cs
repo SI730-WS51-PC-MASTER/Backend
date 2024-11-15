@@ -11,8 +11,14 @@ namespace Backend.Component.Interfaces.REST.Resources
         int ProviderId,
         string Image,
         int Ratings,
-        AttributesResource Attributes,
-        CategoriesResource  Categories,
+        string Model,
+        string Color,
+        string Dimensions,
+        string Material,
+        string Weight,
+        string CategoryType,
+        string CategorySubType,
+        string CategoryBrand,
         string Country
     );
 }

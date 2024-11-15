@@ -1,5 +1,3 @@
-using Backend.Component.Domain.Model.ValueObjects;
-
 namespace Backend.Component.Domain.Model.Commands;
 
 public record CreateComponentCommand(
@@ -10,7 +8,16 @@ public record CreateComponentCommand(
     int ProviderId,
     string Image,
     int Ratings,
-    Attributes Attributes,
-    Categories Categories,
+    string Model,
+    string Color,
+    string Dimensions,
+    string Material,
+    string Weight,
+    string CategoryType,
+    string CategorySubType,
+    string CategoryBrand,
     string Country
-);
+)
+{
+    public int Id { get; }
+}

@@ -60,7 +60,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
          // Configurar Component
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
-        .Property(x => x.ComponentId).IsRequired().ValueGeneratedOnAdd();
+        .Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
         .Property(x => x.Name).IsRequired().HasMaxLength(100);
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
@@ -74,56 +74,34 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
         .Property(x => x.ProviderId).IsRequired();
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
-        .Property(x => x.Country).IsRequired().HasMaxLength(50);
-    builder.Entity<Component.Domain.Model.Aggregates.Component>()
         .Property(x => x.Ratings);
-    // Conversor para AttributeList (Dictionary)
-    var dictionaryToJsonConverter = new ValueConverter<Dictionary<string, string>, string>(
-        v => JsonConvert.SerializeObject(v),
-        v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v) ?? new Dictionary<string, string>());
+    // Configuración de propiedades de atributos específicos
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.Model)
+        .HasMaxLength(100);
 
-    var dictionaryComparer = new ValueComparer<Dictionary<string, string>>(
-        (c1, c2) => c1.SequenceEqual(c2),
-        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-        c => c.ToDictionary(entry => entry.Key, entry => entry.Value)
-    );
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.Color)
+        .HasMaxLength(50);
 
-// Configuración de Attributes con OwnsOne
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.Dimensions)
+        .HasMaxLength(50);
+
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.Material)
+        .HasMaxLength(50);
+
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.Weight)
+        .HasMaxLength(50);
+
+    // Configuración de propiedades de categorías específicas
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.CategoryType)
+        .HasMaxLength(50);
+
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.CategorySubType)
+        .HasMaxLength(50);
+    builder.Entity<Component.Domain.Model.Aggregates.Component>().Property(c => c.CategoryBrand)
+        .HasMaxLength(50);
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
-        .OwnsOne(c => c.Attributes, a =>
-        {
-            a.Property(x => x.AttributeList)
-                .HasConversion(dictionaryToJsonConverter)
-                .Metadata.SetValueComparer(dictionaryComparer);
-            a.Property(x => x.AttributeList)
-                .HasColumnName("Attributes")  // Nombrar la columna como "Attributes"
-                .IsRequired();
-        });
-
-// Conversor para CategoriesList (List<string>)
-    var listToJsonConverter = new ValueConverter<List<string>, string>(
-        v => JsonConvert.SerializeObject(v),
-        v => JsonConvert.DeserializeObject<List<string>>(v) ?? new List<string>());
-
-    var listComparer = new ValueComparer<List<string>>(
-        (l1, l2) => l1.SequenceEqual(l2),
-        l => l.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-        l => l.ToList()
-    );
-
-// Configuración de Categories con OwnsOne
-    builder.Entity<Component.Domain.Model.Aggregates.Component>()
-        .OwnsOne(c => c.Categories, c =>
-        {
-            c.Property(x => x.CategoriesList)
-                .HasConversion(listToJsonConverter)
-                .Metadata.SetValueComparer(listComparer);
-            c.Property(x => x.CategoriesList)
-                .HasColumnName("Categories")  // Nombrar la columna como "Categories"
-                .IsRequired();
-        });
-
-
+        .Property(x => x.Country).IsRequired().HasMaxLength(50);
+    
 
     
         // Cart DbSet

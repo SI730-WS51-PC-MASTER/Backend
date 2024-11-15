@@ -16,9 +16,15 @@ public static class CreateComponentCommandFromResourceAssembler
             resource.Stock,
             resource.ProviderId,
             resource.Image,
-            resource.Ratings, 
-            new Attributes(resource.Attributes.AttributeList),
-            new Categories(resource.Categories.CategoriesList),
+            resource.Ratings,
+            resource.Model,
+            resource.Color,
+            resource.Dimensions,
+            resource.Material,
+            resource.Weight,
+            resource.CategoryType,
+            resource.CategorySubType,
+            resource.CategoryBrand,
             resource.Country
         );
     }

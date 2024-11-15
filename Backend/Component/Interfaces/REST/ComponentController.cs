@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Backend.Component.Domain.Model.Queries;
 using Backend.Component.Domain.Services;
 using Backend.Component.Interfaces.REST.Resources;
@@ -9,8 +10,9 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.Component.Interfaces.REST;
 
 [ApiController]
-[Route("api/[controller]")]
-
+[Route("api/v1/component")]
+[Produces(MediaTypeNames.Application.Json)]
+[Tags("Component")]
 public class ComponentController(
     IComponentCommandService componentCommandService,
     IComponentQueryService componentQueryService)
@@ -20,16 +22,16 @@ public class ComponentController(
     private readonly IComponentQueryService _componentQueryService = componentQueryService;
 
     
-    [HttpGet("{componentId:int}")]
+    [HttpGet]
     [SwaggerOperation(
         Summary = "Get a component by its ID",
         Description = "Get a component by its ID",
         OperationId = "GetComponentById")]
     [SwaggerResponse(StatusCodes.Status200OK, "The component was found", typeof(ComponentResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "No component found")]
-    public async Task<IActionResult> GetComponentById(int componentId)
+    public async Task<IActionResult> GetComponentById(int Id)
     {
-        var query = new GetComponentByIdQuery(componentId);
+        var query = new GetComponentByIdQuery(Id);
         var component = await _componentQueryService.Handle(query); // Usar instancia en lugar de static
         if (component is null)
         {
@@ -48,22 +50,14 @@ public class ComponentController(
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The component could not be created")]
     public async Task<IActionResult> CreateComponent([FromBody] CreateComponentResource resource)
     {
-        Console.WriteLine($"Datos recibidos: {JsonConvert.SerializeObject(resource)}"); // Log temporal
-        try
+        var createComponentCommand = CreateComponentCommandFromResourceAssembler.ToCommand(resource);
+        var component = await componentCommandService.Handle(createComponentCommand);
+        if (component is null)
         {
-            var createComponentCommand = CreateComponentCommandFromResourceAssembler.ToCommand(resource);
-            var component = await componentCommandService.Handle(createComponentCommand);
-            if (component is null)
-            {
-                return BadRequest("No se pudo crear el componente. Verifique los datos proporcionados.");
-            }
-            var componentResource = ComponentResourceFromEntityAssembler.ToResource(component);
-            return CreatedAtAction(nameof(GetComponentById), new { componentId = component.ComponentId }, componentResource);
+            return BadRequest("No se pudo crear el componente. Verifique los datos proporcionados.");
         }
-        catch (Exception ex)
-        {
-            // Registro del error
-            return BadRequest($"Error: {ex.Message}");
-        }
+        var componentResource = ComponentResourceFromEntityAssembler.ToResource(component);
+        return CreatedAtAction(nameof(CreateComponent), new { id = component.Id }, componentResource);
     }
+
 }

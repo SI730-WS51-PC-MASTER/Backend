@@ -10,15 +10,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Backend.Component.Infrastructure.Persistence.EFC.Repositories;
 public class ComponentRepository(AppDbContext context) : BaseRepository<Domain.Model.Aggregates.Component>(context), IComponentRepository
 {
-    public async Task<IEnumerable<Domain.Model.Aggregates.Component>> FindComponentByIdAsync(int componentId)
+    public async Task<List<Domain.Model.Aggregates.Component>> FindComponentByIdAsync(int Id)
     {
-        return await Context.Set<Domain.Model.Aggregates.Component>()
-            .Where(component => component.ComponentId == componentId)
-            .ToListAsync();
-    }
-    public Task<Domain.Model.Aggregates.Component?> GetComponentByIdAsync(Guid componentId)
-    {
-        throw new NotImplementedException();
+        return await Context.Set<Domain.Model.Aggregates.Component>().Where(c => c.Id == Id).ToListAsync();
     }
 
     public Task<Domain.Model.Aggregates.Component> GetComponentsByCategoryAsync(string category)
