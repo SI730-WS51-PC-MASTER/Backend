@@ -5,18 +5,11 @@ namespace Backend.TechnicalSupport.Domain.Services;
 public interface ITechnicianQueryService
 {
     /// <summary>
-    /// Retrieves a Technician record based on the technician's name.
+    /// Retrieves all Technical Support
     /// </summary>
     /// <param name="query"></param>
     /// <returns></returns>
-    Task<Technician> Handle(GetTechnicianByNameQuery query);
-    
-    /// <summary>
-    /// Retrieves a Technician record based on their rating in stars.
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    Task<Technician> Handle(GetTechnicianByStarsQuery query);
+    Task<IEnumerable<Technician>> Handle(GetAllTechnicianQuery query);
     
     /// <summary>
     /// Retrieves a Technician record by its unique identifier.
@@ -24,4 +17,11 @@ public interface ITechnicianQueryService
     /// <param name="query"></param>
     /// <returns></returns>
     Task<Technician> Handle(GetTechnicianByIdQuery query);
+    
+    /// <summary>
+    /// Retrieves all Technicians with the greatest stars rating, limited by TopRanking.
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    Task<IEnumerable<Technician>> Handle(GetAllTechnicianByGreatestStarsNumberQuery query);
 }

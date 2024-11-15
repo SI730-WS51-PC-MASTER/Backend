@@ -18,10 +18,10 @@ public class TechnicalSupportCommandService(ITechnicalSupportRepository technica
     /// </summary>
     /// <param name="command"> The command containing data to create the TechnicalSupport entity </param>
     /// <returns> The newly created TechnicalSupport entity, or null if creation fails. </returns>
-    /// <exception cref="Exception"> Thrown when a TechnicalSupport entity associated with the provided SupportType and TechnicianId already exists. </exception>
+    /// <exception cref="Exception"> Thrown when a TechnicalSupport entity associated with the provided ESupportType and TechnicianId already exists. </exception>
     public async Task<TechnicalSupport?> Handle(CreateTechnicalSupportCommand command)
     {
-        // Check if a TechnicalSupport entity with the given SupportType and TechnicianId already exists
+        // Check if a TechnicalSupport entity with the given ESupportType and TechnicianId already exists
         var technicalSupport = 
             await technicalSupportRepository.FindBySupportTypeAndTechnicianIdAsync(command.SupportType, command.TechnicianId);
         if (technicalSupport != null) 
