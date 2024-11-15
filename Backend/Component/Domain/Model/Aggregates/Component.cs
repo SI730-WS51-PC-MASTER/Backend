@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Backend.Component.Domain.Model.Commands;
 using Backend.Component.Domain.Model.ValueObjects;
+using Backend.Component.Interfaces.REST.Resources;
 
 namespace Backend.Component.Domain.Model.Aggregates;
 

@@ -1,4 +1,5 @@
 using Backend.Component.Domain.Model.Aggregates;
+using Backend.Component.Domain.Model.Queries;
 using Backend.Component.Domain.Repositories;
 using Backend.Interaction.Domain.Model.Aggregates;
 using Backend.Interaction.Domain.Repositories;
@@ -27,6 +28,17 @@ public class ComponentRepository(AppDbContext context) : BaseRepository<Domain.M
 
     public Task AddAsync()
     {
+        throw new NotImplementedException();
+    }
+
+    public Task<Task<Domain.Model.Aggregates.Component>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<Domain.Model.Aggregates.Component>> Handle(GetAllComponentsQuery query)
+    {
+        /*return await ComponentRepository.ListAsync();*/
         throw new NotImplementedException();
     }
 }

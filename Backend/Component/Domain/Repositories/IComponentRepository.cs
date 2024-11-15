@@ -8,4 +8,5 @@ public interface IComponentRepository : IBaseRepository<Model.Aggregates.Compone
     Task<Model.Aggregates.Component> GetComponentsByCategoryAsync(string category);
     Task<Model.Aggregates.Component> GetComponentsByProviderAsync(string providerId);
     Task AddAsync();
+    Task<Task<Model.Aggregates.Component>> GetAllAsync();
 }
