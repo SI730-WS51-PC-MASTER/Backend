@@ -6,17 +6,27 @@ namespace Backend.TechnicalSupport.Application.Internal.QueryServices;
 
 /// <summary>
 /// Service to handle query operations for the TechnicalSupport entity. This service provides methods 
-/// to retrieve TechnicalSupport instances by various criteria, including SupportType, TechnicianId, and Id (the TechnicalSupport entity identifier).
+/// to retrieve TechnicalSupport instances by various criteria, including ESupportType, TechnicianId, and Id (the TechnicalSupport entity identifier).
 /// </summary>
 /// <param name="technicalSupportRepository"> The repository interface for accessing TechnicalSupport data. </param>
 public class TechnicalSupportQueryService(ITechnicalSupportRepository technicalSupportRepository) : ITechnicalSupportQueryService
 {
     /// <summary>
+    /// Retrieves all TechnicalSupport entities
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportQuery query)
+    {
+        return await technicalSupportRepository.ListAsync();
+    }
+    
+    /// <summary>
     /// Retrieves all TechnicalSupport entities associated with a specified Support Type.
     /// </summary>
     /// <param name="query"> The query containing the Support Type. </param>
     /// <returns> An enumerable collection of TechnicalSupport entities associated with the provided Support Type. </returns>
-    public async Task<IEnumerable<TechnicalSupport>> Handle(GetAllTechnicalSupportBySupportTypeQuery query)
+    public async Task<IEnumerable<TechnicalSupport>> Handle(GetTechnicalSupportBySupportTypeQuery query)
     {
         return await technicalSupportRepository.FindBySupportTypeAsync(query.SupportType);
     }

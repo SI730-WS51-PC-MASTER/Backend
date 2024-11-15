@@ -7,7 +7,7 @@ public interface ITechnicianRepository : IBaseRepository<Technician>
 {
     Task<Technician?> FindByNameAsync(string name);
     
-    Task<Technician?> FindByStarsAsync(int stars);
+    Task<Technician?> FindByStarsAsync(double stars);
     
     Task UpdateAsync(Technician technician);
     
