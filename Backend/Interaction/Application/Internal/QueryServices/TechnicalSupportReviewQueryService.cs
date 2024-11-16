@@ -16,6 +16,6 @@ public class TechnicalSupportReviewQueryService : ITechnicalSupportReviewQuerySe
 
     public async Task<IEnumerable<TechnicalSupportReview>> Handle(GetAllTechnicalSupportReviewsByTechnicalSupportIdQuery query)
     {
-        return await _technicalSupportReviewRepository.FindByTechnicalSupportIdAsync(query.TechnicalSupportId);
+        return await _technicalSupportReviewRepository.FindByTechnicalSupportIdAsync(query.TechnicalSupportId.TechSupportId);
     }
 }

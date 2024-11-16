@@ -1,4 +1,5 @@
 using Backend.Interaction.Domain.Model.Queries;
+using Backend.Interaction.Domain.Model.ValueObjects;
 using Backend.Interaction.Domain.Services;
 using Backend.Interaction.Interfaces.Rest.Resources;
 using Backend.Interaction.Interfaces.Rest.Transform;
@@ -22,7 +23,7 @@ public class TechnicalSupportReviewController(ITechnicalSupportReviewCommandServ
     [SwaggerResponse(StatusCodes.Status404NotFound, "No reviews found")]
     public async Task<IActionResult> GetAllReviewTechnicalSupportByIdQuery(int technicalSupportId)
     {
-        var getAllReviewTechnicalSupportByTechnicalSupportIdQuery = new GetAllTechnicalSupportReviewsByTechnicalSupportIdQuery(technicalSupportId);
+        var getAllReviewTechnicalSupportByTechnicalSupportIdQuery = new GetAllTechnicalSupportReviewsByTechnicalSupportIdQuery(new TechnicalSupportId(technicalSupportId));
         var reviews = await technicalSupportReviewQueryService.Handle(getAllReviewTechnicalSupportByTechnicalSupportIdQuery);
 
         if (reviews == null || !reviews.Any())
