@@ -34,25 +34,23 @@ public class WishlistController(IWishlistCommandService wishlistCommandService,
         var resources = wishlist.Select(WishlistResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
-
-    [HttpPost]
+    
+    [HttpPost("{userId:int}")]
     [SwaggerOperation(
         Summary = "Create a new wishlist",
         Description = "Create a new wishlist",
         OperationId = "CreateWishlist")]
     [SwaggerResponse(StatusCodes.Status200OK, "The wishlist was created", typeof(WishlistResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The wishlist could not be created")]
-    public async Task<IActionResult> CreateWishlist([FromBody] CreateWishlistResource resource)
+    public async Task<IActionResult> CreateWishlist([FromBody] CreateWishlistResource resource, int userId)
     {
-        var createWishlistCommand = CreateWishlistCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var createWishlistCommand = CreateWishlistCommandFromResourceAssembler.ToCommandFromResource(resource, userId);
         var wishlist = await wishlistCommandService.Handle(createWishlistCommand);
         if (wishlist is null)
         {
             return BadRequest();
         }
         var wishlistResource = WishlistResourceFromEntityAssembler.ToResourceFromEntity(wishlist);
-        return CreatedAtAction(nameof(GetWishlistByUserIdQuery), new { wishlistId = wishlist.Id }, wishlistResource);
-        
-
+        return Ok(wishlistResource);
     }
 }

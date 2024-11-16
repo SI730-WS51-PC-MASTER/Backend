@@ -82,6 +82,34 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             }
         );
         
+        //Wishlist
+        builder.Entity<Wishlist>().HasKey(w => w.Id);
+        builder.Entity<Wishlist>().Property(w => w.Id).IsRequired().ValueGeneratedOnAdd();
+        
+        builder.Entity<Wishlist>().OwnsOne(
+            wh => wh.UserId,
+            cd =>
+            {
+                cd.WithOwner().HasForeignKey("Id");
+                cd.Property(wh => wh.UsrId)
+                    .IsRequired()
+                    .HasColumnName("UserId");
+            }
+        );
+        
+        builder.Entity<Wishlist>().OwnsOne(
+            wi => wi.ComponentName,
+            tn =>
+            {
+                tn.WithOwner().HasForeignKey("Id");
+                tn.Property(wi => wi.Name)
+                    .IsRequired()
+                    .HasColumnName("ComponentName")
+                    .HasMaxLength(30);
+            }
+        );
+        builder.Entity<Wishlist>().Property(w => w.QuantityComponents).IsRequired();
+        
         
         builder.UseSnakeCaseNamingConvention();
 

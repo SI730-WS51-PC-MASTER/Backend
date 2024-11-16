@@ -5,8 +5,8 @@ namespace Backend.Interaction.Interfaces.Rest.Transform;
 
 public static class CreateWishlistCommandFromResourceAssembler
 {
-    public static CreateWishlistCommand ToCommandFromResource(CreateWishlistResource resource)
+    public static CreateWishlistCommand ToCommandFromResource(CreateWishlistResource resource, int userId)
     {
-        return new CreateWishlistCommand(resource.UserId, resource.ComponentName, resource.QuantityComponents);
+        return new CreateWishlistCommand(userId, resource.ComponentName, resource.QuantityComponents);
     }
 }

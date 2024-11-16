@@ -66,6 +66,11 @@ builder.Services.AddScoped<ITechnicalSupportReviewRepository, TechnicalSupportRe
 builder.Services.AddScoped<ITechnicalSupportReviewQueryService, TechnicalSupportReviewQueryService>();
 builder.Services.AddScoped<ITechnicalSupportReviewCommandService, TechnicalSupportReviewCommandService>();
 
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
+builder.Services.AddScoped<IWishlistQueryService, WishlistQueryService>();
+builder.Services.AddScoped<IWishlistCommandService, WishlistCommandService>();
+
+
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();
 
