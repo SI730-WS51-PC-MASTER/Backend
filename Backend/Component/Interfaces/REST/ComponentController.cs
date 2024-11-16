@@ -57,7 +57,7 @@ public class ComponentController(
         var resource = ComponentResourceFromEntityAssembler.ToResource(component);
         return Ok(resource);
     }
-/*
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all components",
@@ -70,7 +70,4 @@ public class ComponentController(
         var resources = components.Select(ComponentResourceFromEntityAssembler.ToResource).ToList();  // Asegúrate de llamar a ToList() para materializar el enumerable
         return Ok(resources);
     }
-
-*/
-
 }
