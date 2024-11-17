@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Backend.Orders.Domain.Model.Aggregates;
 using Backend.Orders.Domain.Model.Queries;
 using Backend.Orders.Domain.Services;
@@ -10,6 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.Orders.Interfaces.REST;
 
 [ApiController]
+//[Authorize] //Esto es el locker del IAM
 [Route("/api/v1/cart")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Cart")]

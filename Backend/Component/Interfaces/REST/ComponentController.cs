@@ -3,6 +3,7 @@ using Backend.Component.Domain.Model.Queries;
 using Backend.Component.Domain.Services;
 using Backend.Component.Interfaces.REST.Resources;
 using Backend.Component.Interfaces.REST.Transform;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
@@ -10,6 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.Component.Interfaces.REST;
 
 [ApiController]
+[Authorize] //Esto es el locker del IAM
 [Route("api/v1/component")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Component")]

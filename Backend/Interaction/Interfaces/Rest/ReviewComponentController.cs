@@ -1,3 +1,4 @@
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Backend.Interaction.Domain.Model.Queries;
 using Backend.Interaction.Domain.Services;
 using Backend.Interaction.Interfaces.Rest.Resources;
@@ -7,6 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Interaction.Interfaces.Rest;
 [ApiController]
+//[Authorize] //Esto es el locker del IAM
 [Route("/api/v1/[controller]")]
 [SwaggerTag("Available Review Component Endpoints")]
 

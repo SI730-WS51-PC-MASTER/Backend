@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Backend.IAM.Domain.Model.Aggregates;
 using Backend.Interaction.Domain.Model.Aggregates;
 using Backend.Orders.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -112,6 +113,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Cart>().Property(f => f.Quantity).IsRequired();
         builder.Entity<Cart>().Property(f => f.CreatedDate).IsRequired();
         builder.Entity<Cart>().Property(f => f.UpdatedDate).IsRequired();
+        
+        // IAM Context
+        
+        builder.Entity<User>().HasKey(u => u.Id);
+        builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<User>().Property(u => u.Username).IsRequired();
+        builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+        builder.UseSnakeCaseNamingConvention();
         
         builder.UseSnakeCaseNamingConvention();
     }

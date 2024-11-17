@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Backend.TechnicalSupport.Domain.Model.Command;
 using Backend.TechnicalSupport.Domain.Model.Queries;
 using Backend.TechnicalSupport.Domain.Services;
@@ -10,6 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.TechnicalSupport.Interfaces.REST;
 
 [ApiController]
+//[Authorize] //Esto es el locker del IAM
 [Route("/api/v1/technicians")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags ("Technicians")]
