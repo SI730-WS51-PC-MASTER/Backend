@@ -14,4 +14,21 @@ public class TechnicalSupportReviewRepository(AppDbContext context) : BaseReposi
             .Where(reviewTechnicalSupport => reviewTechnicalSupport.TechnicalSupportId.TechSupportId == technicalSupportId)
             .ToListAsync();
     }
+
+    public async Task UpdateAsync(TechnicalSupportReview technicalSupportReview)
+    {
+        Context.Set<TechnicalSupportReview>().Update(technicalSupportReview);
+        await Context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(TechnicalSupportReview technicalSupportReview)
+    {
+        if (technicalSupportReview == null)
+        {
+            throw new ArgumentNullException(nameof(technicalSupportReview), "TechnicalSupportReview entity cannot be null.");
+        }
+
+        Context.Set<TechnicalSupportReview>().Remove(technicalSupportReview);
+        await Context.SaveChangesAsync();
+    }
 }

@@ -30,4 +30,41 @@ public class WishlistCommandService(IWishlistRepository wishlistRepository,
         await unitOfWork.CompleteAsync();
         return wishlist;
     }
+
+    public async Task<Wishlist> Handle(UpdateWishlistCommand command)
+    {
+        var wishlist = await wishlistRepository.FindByIdAsync(command.Id);
+
+        if (wishlist == null)
+        {
+            throw new Exception($"Wishlist with Id {command.Id} does not exist.");
+        }
+
+        wishlist.Update(command);
+
+        try
+        {
+            await wishlistRepository.UpdateAsync(wishlist);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return wishlist;
+    }
+
+    public async Task<bool> Handle(DeleteWishlistCommand command)
+    {
+        var wishlist = await wishlistRepository.FindByIdAsync(command.Id);
+        if (wishlist == null)
+        {
+            return false;
+        }
+
+        await wishlistRepository.DeleteAsync(wishlist);
+        return true;
+    }
 }

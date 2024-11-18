@@ -18,7 +18,7 @@ public class Wishlist
         QuantityComponents = 0;
     }
 
-    public Wishlist(int quantityComponents, int userId, string componentName)
+    public Wishlist(int userId, string componentName, int quantityComponents)
     {
         UserId = new UserId(userId);
         ComponentName = new ComponentName(componentName);
@@ -28,8 +28,13 @@ public class Wishlist
 
     public Wishlist(CreateWishlistCommand command)
     {
-        QuantityComponents = command.QuantityComponents;
         UserId = new UserId(command.UserId);
         ComponentName = new ComponentName(command.ComponentName);
+        QuantityComponents = command.QuantityComponents;
+    }
+
+    public void Update(UpdateWishlistCommand command)
+    {
+        QuantityComponents = command.QuantityComponents;
     }
 }

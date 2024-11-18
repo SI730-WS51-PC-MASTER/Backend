@@ -20,7 +20,7 @@ public class ComponentReview
     }
     
 
-    public ComponentReview(int rating, string comment, string userName, int componentId, string componentName)
+    public ComponentReview(int rating, string comment, string userName, int componentId)
     {
         Rating = rating;
         Comment = comment;
@@ -34,5 +34,11 @@ public class ComponentReview
         Comment = command.Comment;
         UserName = new UserName(command.UserName);
         ComponentId = new ComponentId(command.ComponentId);
+    }
+
+    public void Update(UpdateComponentReviewCommand command)
+    {
+        Rating = command.Rating;
+        Comment = command.Comment;
     }
 }

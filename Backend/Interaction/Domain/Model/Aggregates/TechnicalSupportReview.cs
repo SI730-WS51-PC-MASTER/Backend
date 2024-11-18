@@ -34,4 +34,10 @@ public class TechnicalSupportReview
         UserName = new UserName(command.UserName);
         TechnicalSupportId = new TechnicalSupportId(command.TechnicalSupportId);
     }
+
+    public void Update(UpdateTechnicalSupportReviewCommand command)
+    {
+        Rating = command.Rating;
+        Comment = command.Comment;
+    }
 }

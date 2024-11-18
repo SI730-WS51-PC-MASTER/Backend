@@ -14,4 +14,21 @@ public class WishlistRepository(AppDbContext context) : BaseRepository<Wishlist>
             .Where(wishlist => wishlist.UserId.UsrId == userId)
             .ToListAsync();
     }
+
+    public async Task UpdateAsync(Wishlist wishlist)
+    {
+        Context.Set<Wishlist>().Update(wishlist);
+        await Context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Wishlist wishlist)
+    {
+        if (wishlist == null)
+        {
+            throw new ArgumentNullException(nameof(wishlist), "Wishlist entity cannot be null.");
+        }
+
+        Context.Set<Wishlist>().Remove(wishlist);
+        await Context.SaveChangesAsync();
+    }
 }

@@ -29,4 +29,41 @@ public class TechnicalSupportReviewCommandService(ITechnicalSupportReviewReposit
         await unitOfWork.CompleteAsync();
         return reviewTechnicalSupport;
     }
+
+    public async Task<TechnicalSupportReview> Handle(UpdateTechnicalSupportReviewCommand command)
+    {
+        var technicalSupportReview = await technicalSupportReviewRepository.FindByIdAsync(command.Id);
+
+        if (technicalSupportReview == null)
+        {
+            throw new Exception($"TechnicalSupportReview with Id {command.Id} does not exist.");
+        }
+
+        technicalSupportReview.Update(command);
+
+        try
+        {
+            await technicalSupportReviewRepository.UpdateAsync(technicalSupportReview);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return technicalSupportReview;
+    }
+
+    public async Task<bool> Handle(DeleteTechnicalSupportReviewCommand command)
+    {
+        var technicalSupportReview = await technicalSupportReviewRepository.FindByIdAsync(command.Id);
+        if (technicalSupportReview == null)
+        {
+            return false;
+        }
+
+        await technicalSupportReviewRepository.DeleteAsync(technicalSupportReview);
+        return true;
+    }
 }

@@ -29,4 +29,41 @@ public class ComponentReviewCommandService(IComponentReviewRepository componentR
         await unitOfWork.CompleteAsync();
         return reviewComponent;
     }
+
+    public async Task<ComponentReview> Handle(UpdateComponentReviewCommand command)
+    {
+        var componentReview = await componentReviewRepository.FindByIdAsync(command.Id);
+
+        if (componentReview == null)
+        {
+            throw new Exception($"ComponentReview with Id {command.Id} does not exist.");
+        }
+
+        componentReview.Update(command);
+
+        try
+        {
+            await componentReviewRepository.UpdateAsync(componentReview);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return componentReview;
+    }
+
+    public async Task<bool> Handle(DeleteComponentReviewCommand command)
+    {
+        var componentReview = await componentReviewRepository.FindByIdAsync(command.Id);
+        if (componentReview == null)
+        {
+            return false;
+        }
+
+        await componentReviewRepository.DeleteAsync(componentReview);
+        return true;
+    }
 }
