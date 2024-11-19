@@ -33,8 +33,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Cart>().Property(f => f.ComponentId).IsRequired();
         builder.Entity<Cart>().Property(f => f.UserId).IsRequired();
         builder.Entity<Cart>().Property(f => f.Quantity).IsRequired();
-        builder.Entity<Cart>().Property(f => f.CreatedDate).IsRequired();
-        builder.Entity<Cart>().Property(f => f.UpdatedDate).IsRequired();
         
         builder.UseSnakeCaseNamingConvention();
 

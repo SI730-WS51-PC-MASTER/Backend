@@ -10,4 +10,10 @@ public interface ICartRepository : IBaseRepository<Cart>
     Task<IEnumerable<Cart>> FindByUserIdAsync(int userId);
 
     Task<Cart?> FindByComponentIdAsync(int productId);
+    
+    Task DeleteByIdAsync(Cart cart);
+    
+    Task<bool> ComponentIdExistsForUserAsync(int userId, int componentId);
+    
+    Task<IEnumerable<Cart>> GetCarts();
 }

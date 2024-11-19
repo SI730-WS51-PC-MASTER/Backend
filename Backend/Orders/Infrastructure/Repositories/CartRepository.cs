@@ -18,5 +18,28 @@ public class CartRepository(AppDbContext context) : BaseRepository<Cart>(context
     {
         return await Context.Set<Cart>().FirstOrDefaultAsync(f => f.ComponentId == productId);
     }
+
+    public async Task DeleteByIdAsync(Cart cart)
+    {
+
+        if (cart == null)
+        {
+            throw new ArgumentNullException(nameof(cart), "Cart not found");
+        }
+
+        // Delete cart
+        Context.Set<Cart>().Remove(cart);
+    }
+
+    public async Task<bool> ComponentIdExistsForUserAsync(int userId, int componentId)
+    {
+        return await Context.Set<Cart>()
+            .AnyAsync(c => c.UserId == userId && c.ComponentId == componentId);
+    }
+
+    public async Task<IEnumerable<Cart>> GetCarts()
+    {
+        return await Context.Set<Cart>().ToListAsync();
+    }
     
 }
