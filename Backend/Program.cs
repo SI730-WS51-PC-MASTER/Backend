@@ -1,3 +1,4 @@
+using System.Text;
 using Backend.Component.Application.Internal.CommandServices;
 using Backend.Component.Application.Internal.QueryServices;
 using Backend.Component.Domain.Repositories;
@@ -11,6 +12,7 @@ using Backend.IAM.Domain.Repositories;
 using Backend.IAM.Domain.Services;
 using Backend.IAM.Infrastructure.Hashing.BCrypt.Services;
 using Backend.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Components;
 using Backend.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using Backend.IAM.Infrastructure.Tokens.JWT.Configuration;
 using Backend.IAM.Infrastructure.Tokens.JWT.Services;
@@ -40,6 +42,8 @@ using Backend.Orders.Application.Internal.QueryServices;
 using Backend.Orders.Domain.Repositories;
 using Backend.Orders.Domain.Services;
 using Backend.Orders.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -207,6 +211,22 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
+// Configura la autenticación JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["TokenSettings:Issuer"],  // Reemplaza si es necesario
+            ValidAudience = builder.Configuration["TokenSettings:Audience"], // Reemplaza si es necesario
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSettings:Secret"]))
+        };
+    });
+
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();
@@ -219,6 +239,8 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
+//app.UseMiddleware<RequestAuthorizationMiddleware>();
+
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
@@ -226,7 +248,7 @@ app.UseSwaggerUI();
 
 
 // Apply CORS Policy
-app.UseCors("AllowedAllPolicy");
+app.UseCors("AllowAllPolicy");
 
 // Add Authorization Middleware to the Pipeline
 app.UseRequestAuthorization();

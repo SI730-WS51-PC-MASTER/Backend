@@ -12,8 +12,8 @@ namespace Backend.Component.Interfaces.REST;
 
 [ApiController]
 [Authorize] //Esto es el locker del IAM
-[Route("api/v1/component")]
-[Produces(MediaTypeNames.Application.Json)]
+[Route("api/v1/[controller]")]
+[Produces(MediaTypeNames.Application.Json)] 
 [Tags("Component")]
 public class ComponentController(
     IComponentCommandService componentCommandService,

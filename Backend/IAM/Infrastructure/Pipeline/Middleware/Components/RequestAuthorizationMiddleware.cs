@@ -36,9 +36,8 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         ITokenService tokenService)
     {
         Console.WriteLine("Entering InvokeAsync");
-        var allowAnonymous = context.Request.HttpContext.GetEndpoint()!
-            .Metadata
-            .Any(m => m.GetType() == typeof(AllowAnonymousAttribute));
+        var endpoint = context.Request.HttpContext.GetEndpoint();
+        var allowAnonymous = endpoint?.Metadata?.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)) ?? false;
         Console.WriteLine($"AllowAnonymous: {allowAnonymous}");
         if (allowAnonymous)
         {
@@ -47,10 +46,15 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
             return;
         }
         Console.WriteLine("Entering authorization");
+
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        if (token is null) throw new Exception("Null of invalid token");
-        
+        if (string.IsNullOrEmpty(token))
+        {
+            context.Response.StatusCode = 401; // Unauthorized
+            await context.Response.WriteAsync("Token is missing or invalid");
+            return;
+        }
         var userId = await tokenService.ValidateToken(token);
         
         if (userId is null) throw new Exception("Invalid token");
