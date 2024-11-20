@@ -24,6 +24,11 @@ public class ComponentReviewCommandService(IComponentReviewRepository componentR
     /// </returns>
     public async Task<ComponentReview?> Handle(CreateComponentReviewCommand command)
     {
+        // Validar el rango del Rating
+        if (command.Rating < 1 || command.Rating > 5)
+        {
+            throw new ArgumentException("Rating must be between 1 and 5.", nameof(command.Rating));
+        }
         var reviewComponent = new ComponentReview(command);
         await componentReviewRepository.AddAsync(reviewComponent);
         await unitOfWork.CompleteAsync();
@@ -37,6 +42,11 @@ public class ComponentReviewCommandService(IComponentReviewRepository componentR
         if (componentReview == null)
         {
             throw new Exception($"ComponentReview with Id {command.Id} does not exist.");
+        }
+        
+        if (command.Rating < 1 || command.Rating > 5)
+        {
+            throw new ArgumentException("Rating must be between 1 and 5.", nameof(command.Rating));
         }
 
         componentReview.Update(command);

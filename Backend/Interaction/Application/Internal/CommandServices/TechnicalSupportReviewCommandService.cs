@@ -24,6 +24,11 @@ public class TechnicalSupportReviewCommandService(ITechnicalSupportReviewReposit
     /// </returns>
     public async Task<TechnicalSupportReview?> Handle(CreateTechnicalSupportReviewCommand command)
     {
+        // Validar el rango del Rating
+        if (command.Rating < 1 || command.Rating > 5)
+        {
+            throw new ArgumentException("Rating must be between 1 and 5.", nameof(command.Rating));
+        }
         var reviewTechnicalSupport = new TechnicalSupportReview(command);
         await technicalSupportReviewRepository.AddAsync(reviewTechnicalSupport);
         await unitOfWork.CompleteAsync();
@@ -37,6 +42,12 @@ public class TechnicalSupportReviewCommandService(ITechnicalSupportReviewReposit
         if (technicalSupportReview == null)
         {
             throw new Exception($"TechnicalSupportReview with Id {command.Id} does not exist.");
+        }
+        
+        // Validar el rango del Rating
+        if (command.Rating < 1 || command.Rating > 5)
+        {
+            throw new ArgumentException("Rating must be between 1 and 5.", nameof(command.Rating));
         }
 
         technicalSupportReview.Update(command);

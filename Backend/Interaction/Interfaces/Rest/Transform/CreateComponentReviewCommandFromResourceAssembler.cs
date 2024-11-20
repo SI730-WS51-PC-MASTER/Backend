@@ -7,6 +7,6 @@ public static class CreateComponentReviewCommandFromResourceAssembler
 {
     public static CreateComponentReviewCommand ToCommandFromResource(CreateComponentReviewResource resource)
     {
-        return new CreateComponentReviewCommand(resource.Rating, resource.Comment, resource.UserName, resource.ComponentId);
+        return new CreateComponentReviewCommand(resource.ComponentId, resource.UserName,resource.Rating, resource.Comment);
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Backend.Interaction.Domain.Model.Commands;
 using Backend.Interaction.Domain.Model.ValueObjects;
 
@@ -6,6 +7,7 @@ namespace Backend.Interaction.Domain.Model.Aggregates;
 public class ComponentReview
 {
     public int Id { get; }
+    
     public int Rating { get; private set; }
     public string Comment { get; private set; }
     public UserName UserName { get; private set; }
@@ -13,7 +15,7 @@ public class ComponentReview
     
     public ComponentReview()
     {
-        Rating = 0;
+        Rating = 1;
         Comment = "";
         UserName = new UserName();
         ComponentId = new ComponentId();

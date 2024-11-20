@@ -1,8 +1,10 @@
+using Backend.Interaction.Domain.Model.ValueObjects;
+
 namespace Backend.Interaction.Domain.Model.Commands;
 
 public record CreateComponentReviewCommand(
-    int Rating,
-    string Comment,
+    int ComponentId,
     string UserName,
-    int ComponentId
+    int Rating,
+    string Comment
     );
