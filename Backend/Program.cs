@@ -177,12 +177,17 @@ builder.Services.AddScoped<ITechnicianQueryService, TechnicianQueryService>();
 builder.Services.AddScoped<ITechnicianCommandService, TechnicianCommandService>();
 
 //Interaction BC
-builder.Services.AddScoped<IReviewComponentRepository, ReviewComponentRepository>();
-builder.Services.AddScoped<IReviewComponentQueryService, ReviewComponentQueryService>();
-builder.Services.AddScoped<IReviewComponentCommandService, ReviewComponentCommandService>();
-builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSupportRepository>();
-builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
-builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
+builder.Services.AddScoped<IComponentReviewRepository, ComponentReviewRepository>();
+builder.Services.AddScoped<IComponentReviewQueryService, ComponentReviewQueryService>();
+builder.Services.AddScoped<IComponentReviewCommandService, ComponentReviewCommandService>();
+
+builder.Services.AddScoped<ITechnicalSupportReviewRepository, TechnicalSupportReviewRepository>();
+builder.Services.AddScoped<ITechnicalSupportReviewQueryService, TechnicalSupportReviewQueryService>();
+builder.Services.AddScoped<ITechnicalSupportReviewCommandService, TechnicalSupportReviewCommandService>();
+
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
+builder.Services.AddScoped<IWishlistQueryService, WishlistQueryService>();
+builder.Services.AddScoped<IWishlistCommandService, WishlistCommandService>();
 
 
 //Component BC

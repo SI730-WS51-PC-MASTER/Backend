@@ -40,24 +40,93 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<TechnicalSupport.Technician>().Property(f => f.Stars).IsRequired();
         
         //Bounded Context Interaction
-        //ReviewComponent
-        builder.Entity<ReviewComponent>().HasKey(c => c.Id);
-        builder.Entity<ReviewComponent>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<ReviewComponent>().Property(c => c.Rating).IsRequired();
-        builder.Entity<ReviewComponent>().Property(c => c.Comment).IsRequired().HasMaxLength(150);
-        builder.Entity<ReviewComponent>().Property(c => c.UserName).IsRequired();
-        builder.Entity<ReviewComponent>().Property(c => c.ComponentId).IsRequired();
-        builder.Entity<ReviewComponent>().Property(c => c.ComponentName).IsRequired();
+        //ComponentReview
+        builder.Entity<ComponentReview>().HasKey(c => c.Id);
+        builder.Entity<ComponentReview>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<ComponentReview>().Property(c => c.Rating).IsRequired();
+        builder.Entity<ComponentReview>().Property(c => c.Comment).IsRequired().HasMaxLength(150);
+
+        builder.Entity<ComponentReview>().OwnsOne(
+            rc => rc.UserName,
+            un =>
+            {
+                un.WithOwner().HasForeignKey("Id");
+                un.Property(rc => rc.Name)
+                    .IsRequired()
+                    .HasColumnName("UserName")
+                    .HasMaxLength(30);
+            }
+        );
+
+        builder.Entity<ComponentReview>().OwnsOne(
+            rc => rc.ComponentId,
+            cd =>
+            {
+                cd.WithOwner().HasForeignKey("Id");
+                cd.Property(rc => rc.CompId)
+                    .IsRequired()
+                    .HasColumnName("ComponentId");
+            }
+        );
+
         
+        //TechnicalSupportReview
+        builder.Entity<TechnicalSupportReview>().HasKey(c => c.Id);
+        builder.Entity<TechnicalSupportReview>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<TechnicalSupportReview>().Property(c => c.Rating).IsRequired();
+        builder.Entity<TechnicalSupportReview>().Property(c => c.Comment).IsRequired().HasMaxLength(150);
         
-        //ReviewTechnicalSupport
-        builder.Entity<ReviewTechnicalSupport>().HasKey(c => c.Id);
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.Rating).IsRequired();
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.Comment).IsRequired().HasMaxLength(150);
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.UserName).IsRequired();
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.TechnicalSupportId).IsRequired();
-        builder.Entity<ReviewTechnicalSupport>().Property(c => c.TechnicalSupport).IsRequired();
+        builder.Entity<TechnicalSupportReview>().OwnsOne(
+            rt => rt.UserName,
+            tn =>
+            {
+                tn.WithOwner().HasForeignKey("Id");
+                tn.Property(rt => rt.Name)
+                    .IsRequired()
+                    .HasColumnName("UserName")
+                    .HasMaxLength(30);
+            }
+        );
+        
+        builder.Entity<TechnicalSupportReview>().OwnsOne(
+            tc => tc.TechnicalSupportId,
+            td =>
+            {
+                td.WithOwner().HasForeignKey("Id");
+                td.Property(tc => tc.TechSupportId)
+                    .IsRequired()
+                    .HasColumnName("TechnicalSupportId");
+            }
+        );
+        
+        //Wishlist
+        builder.Entity<Wishlist>().HasKey(w => w.Id);
+        builder.Entity<Wishlist>().Property(w => w.Id).IsRequired().ValueGeneratedOnAdd();
+        
+        builder.Entity<Wishlist>().OwnsOne(
+            wh => wh.UserId,
+            cd =>
+            {
+                cd.WithOwner().HasForeignKey("Id");
+                cd.Property(wh => wh.UsrId)
+                    .IsRequired()
+                    .HasColumnName("UserId");
+            }
+        );
+        
+        builder.Entity<Wishlist>().OwnsOne(
+            wi => wi.ComponentName,
+            tn =>
+            {
+                tn.WithOwner().HasForeignKey("Id");
+                tn.Property(wi => wi.Name)
+                    .IsRequired()
+                    .HasColumnName("ComponentName")
+                    .HasMaxLength(30);
+            }
+        );
+        builder.Entity<Wishlist>().Property(w => w.QuantityComponents).IsRequired();
+        
         
          // Configurar Component
     builder.Entity<Component.Domain.Model.Aggregates.Component>()
