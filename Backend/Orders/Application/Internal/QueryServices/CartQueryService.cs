@@ -11,4 +11,9 @@ public class CartQueryService(ICartRepository cartRepository) : ICartQueryServic
     {
         return await cartRepository.FindByUserIdAsync(query.UserId);
     }
+
+    public async Task<IEnumerable<Cart>> Handle(GetCartsQuery query)
+    {
+        return await cartRepository.GetCarts();
+    }
 }
