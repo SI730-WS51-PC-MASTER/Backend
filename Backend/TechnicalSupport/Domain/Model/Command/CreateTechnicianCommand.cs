@@ -6,4 +6,5 @@ namespace Backend.TechnicalSupport.Domain.Model.Command;
 /// <param name="Name"></param>
 /// <param name="Status"></param>
 /// <param name="Stars"></param>
-public record CreateTechnicianCommand(string Name, bool Status, double Stars);
+/// <param name="Img"></param>
+public record CreateTechnicianCommand(string Name, bool Status, double Stars, string Img);

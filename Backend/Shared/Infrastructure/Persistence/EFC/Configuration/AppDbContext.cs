@@ -38,6 +38,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<TechnicalSupport.Technician>().Property(f => f.Name).IsRequired();
         builder.Entity<TechnicalSupport.Technician>().Property(f => f.Status).IsRequired();
         builder.Entity<TechnicalSupport.Technician>().Property(f => f.Stars).IsRequired();
+        builder.Entity<TechnicalSupport.Technician>().Property(x => x.Img).IsRequired().HasMaxLength(200);
         
         //Bounded Context Interaction
         //ComponentReview

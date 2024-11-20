@@ -23,12 +23,18 @@ public class Technician
     /// Stars Quantity (maximum could be five stars)
     /// </summary>
     public double Stars { get; set; }
+    
+    /// <summary>
+    /// Photo Image of the technician
+    /// </summary>
+    public string Img { get; set; }
    
     protected Technician()
     {
         Name = string.Empty;
         Status = false;  
         Stars = 0.0;
+        Img = string.Empty;
     }
 
     public Technician(CreateTechnicianCommand command)
@@ -36,6 +42,7 @@ public class Technician
         Name = command.Name;
         Status = command.Status;
         this.setRating(command.Stars);
+        Img = command.Img;
     }
     
     public void UpdateProperties(UpdateTechnicianCommand command)
@@ -43,6 +50,7 @@ public class Technician
         this.Name = command.Name;
         this.Status = command.Status;
         this.setRating(command.Stars);
+        Img = command.Img;
     }
     
     // Validation methods

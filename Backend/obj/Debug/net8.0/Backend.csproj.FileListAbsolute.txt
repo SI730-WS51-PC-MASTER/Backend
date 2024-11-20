@@ -280,3 +280,13 @@ C:\Users\DIRORE\Documents\GitHub\Backend\Backend\obj\Debug\net8.0\refint\Backend
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\obj\Debug\net8.0\Backend.pdb
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\obj\Debug\net8.0\Backend.genruntimeconfig.cache
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\obj\Debug\net8.0\ref\Backend.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Oscar\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

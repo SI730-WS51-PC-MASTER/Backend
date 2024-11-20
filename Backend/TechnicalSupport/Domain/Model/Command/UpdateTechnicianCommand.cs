@@ -11,5 +11,6 @@ public record UpdateTechnicianCommand(
     int Id,
     string Name,
     bool Status,
-    double Stars
+    double Stars,
+    string Img
     );

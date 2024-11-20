@@ -12,7 +12,8 @@ public class UpdateTechnicianCommandFromResourceAssembler
             Id: id,
             Name: resource.Name,
             Status: resource.Status,
-            Stars: resource.Stars
+            Stars: resource.Stars,
+            Img: resource.Img
         );
     }
 }
