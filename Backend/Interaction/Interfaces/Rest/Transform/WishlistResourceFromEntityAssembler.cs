@@ -7,6 +7,6 @@ public static class WishlistResourceFromEntityAssembler
 {
     public static WishlistResource ToResourceFromEntity(Wishlist entity)
     {
-        return new WishlistResource(entity.Id, entity.UserId.UsrId, entity.ComponentName.Name, entity.QuantityComponents);
+        return new WishlistResource(entity.Id, entity.UserId.UsrId, entity.ComponentId.CompId, entity.Quantity);
     }
 }

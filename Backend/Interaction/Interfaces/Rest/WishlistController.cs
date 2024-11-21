@@ -15,7 +15,7 @@ namespace Backend.Interaction.Interfaces.Rest;
 public class WishlistController(IWishlistCommandService wishlistCommandService, 
     IWishlistQueryService wishlistQueryService) : ControllerBase
 {
-    [HttpGet("{userId:int}")]
+    [HttpGet("user/{userId:int}")]
     [SwaggerOperation(
         Summary = "Get wishlist by user ID",
         Description = "Get wishlist for a specific User ID",

@@ -10,4 +10,4 @@ public record UpdateWishlistCommand(
     int Id,
     //int UserId, 
     //string ComponentName, 
-    int QuantityComponents);
+    int Quantity);

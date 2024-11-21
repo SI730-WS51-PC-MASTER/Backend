@@ -221,7 +221,6 @@ C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\K4os.Compressi
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\K4os.Compression.LZ4.Streams.dll
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\K4os.Hash.xxHash.dll
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\DIRORE\Documents\GitHub\Backend\Backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll

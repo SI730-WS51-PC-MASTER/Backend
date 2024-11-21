@@ -116,17 +116,17 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         );
         
         builder.Entity<Wishlist>().OwnsOne(
-            wi => wi.ComponentName,
+            wi => wi.ComponentId,
             tn =>
             {
                 tn.WithOwner().HasForeignKey("Id");
-                tn.Property(wi => wi.Name)
+                tn.Property(wi => wi.CompId)
                     .IsRequired()
-                    .HasColumnName("ComponentName")
+                    .HasColumnName("ComponentId")
                     .HasMaxLength(30);
             }
         );
-        builder.Entity<Wishlist>().Property(w => w.QuantityComponents).IsRequired();
+        builder.Entity<Wishlist>().Property(w => w.Quantity).IsRequired();
         
         
          // Configurar Component

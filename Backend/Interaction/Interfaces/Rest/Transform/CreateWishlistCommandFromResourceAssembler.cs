@@ -7,6 +7,6 @@ public static class CreateWishlistCommandFromResourceAssembler
 {
     public static CreateWishlistCommand ToCommandFromResource(CreateWishlistResource resource)
     {
-        return new CreateWishlistCommand(resource.UserId, resource.ComponentName, resource.QuantityComponents);
+        return new CreateWishlistCommand(resource.UserId, resource.ComponentId, resource.Quantity);
     }
 }

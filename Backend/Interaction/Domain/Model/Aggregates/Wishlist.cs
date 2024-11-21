@@ -7,34 +7,34 @@ public class Wishlist
 {
     public int Id { get; }
     public UserId UserId { get; private set; }
-    public ComponentName ComponentName { get; private set; }
-    public int QuantityComponents { get; private set; }
+    public ComponentId ComponentId { get; private set; }
+    public int Quantity { get; private set; }
 
 
     public Wishlist()
     {
         UserId = new UserId();
-        ComponentName = new ComponentName();
-        QuantityComponents = 0;
+        ComponentId = new ComponentId();
+        Quantity = 0;
     }
 
-    public Wishlist(int userId, string componentName, int quantityComponents)
+    public Wishlist(int userId, int componentId, int quantityComponents)
     {
         UserId = new UserId(userId);
-        ComponentName = new ComponentName(componentName);
-        QuantityComponents = quantityComponents;
+        ComponentId = new ComponentId(componentId);
+        Quantity = quantityComponents;
     }
 
 
     public Wishlist(CreateWishlistCommand command)
     {
         UserId = new UserId(command.UserId);
-        ComponentName = new ComponentName(command.ComponentName);
-        QuantityComponents = command.QuantityComponents;
+        ComponentId = new ComponentId(command.ComponentId);
+        Quantity = command.Quantity;
     }
 
     public void Update(UpdateWishlistCommand command)
     {
-        QuantityComponents = command.QuantityComponents;
+        Quantity = command.Quantity;
     }
 }

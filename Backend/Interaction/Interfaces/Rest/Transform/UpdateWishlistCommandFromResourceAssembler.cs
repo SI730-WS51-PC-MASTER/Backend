@@ -10,7 +10,7 @@ public class UpdateWishlistCommandFromResourceAssembler
         return new UpdateWishlistCommand
         (
             Id: id,
-            QuantityComponents: resource.QuantityComponents
+            Quantity: resource.Quantity
         );
     }
 }
