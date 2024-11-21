@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.TechnicalSupport.Interfaces.REST;
 
 [ApiController]
-//[Authorize] //Esto es el locker del IAM
+[Authorize]
 [Route("/api/v1/technical-support")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags ("Technical support services by Technicians")]

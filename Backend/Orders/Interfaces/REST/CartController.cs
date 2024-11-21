@@ -12,7 +12,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Backend.Orders.Interfaces.REST;
 
 [ApiController]
-//[Authorize] //Esto es el locker del IAM
+[Authorize]
 [Route("/api/v1/cart")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Cart")]
