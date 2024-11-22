@@ -22,26 +22,42 @@ public class Technician
     /// <summary>
     /// Stars Quantity (maximum could be five stars)
     /// </summary>
-    public int Stars { get; set; }
+    public double Stars { get; set; }
+    
+    /// <summary>
+    /// Photo Image of the technician
+    /// </summary>
+    public string Img { get; set; }
    
     protected Technician()
     {
         Name = string.Empty;
         Status = false;  
-        Stars = 0;
+        Stars = 0.0;
+        Img = string.Empty;
     }
 
     public Technician(CreateTechnicianCommand command)
     {
         Name = command.Name;
         Status = command.Status;
-        Stars = command.Stars;
+        this.setRating(command.Stars);
+        Img = command.Img;
     }
     
     public void UpdateProperties(UpdateTechnicianCommand command)
     {
         this.Name = command.Name;
         this.Status = command.Status;
-        this.Stars = command.Stars;
+        this.setRating(command.Stars);
+        Img = command.Img;
+    }
+    
+    // Validation methods
+    public void setRating(double stars) {
+        if (stars < 0.0 || stars > 5.0) {
+            throw new ArgumentOutOfRangeException(nameof(stars), "Stars must be between 0 and 5.");
+        }
+        this.Stars = stars;
     }
 }

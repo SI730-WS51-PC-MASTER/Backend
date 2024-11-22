@@ -1,7 +1,22 @@
+using System.Text;
 using Backend.Component.Application.Internal.CommandServices;
 using Backend.Component.Application.Internal.QueryServices;
 using Backend.Component.Domain.Repositories;
 using Backend.Component.Domain.Services;
+using Backend.Component.Infrastructure.Persistence.EFC.Repositories;
+using Backend.IAM.Application.ACL.Services;
+using Backend.IAM.Application.Internal.CommandServices;
+using Backend.IAM.Application.Internal.OutboundServices;
+using Backend.IAM.Application.Internal.QueryServices;
+using Backend.IAM.Domain.Repositories;
+using Backend.IAM.Domain.Services;
+using Backend.IAM.Infrastructure.Hashing.BCrypt.Services;
+using Backend.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Components;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+using Backend.IAM.Infrastructure.Tokens.JWT.Configuration;
+using Backend.IAM.Infrastructure.Tokens.JWT.Services;
+using Backend.IAM.Interfaces.ACL;
 using Backend.Interaction.Application.Internal.CommandServices;
 using Backend.Interaction.Application.Internal.QueryServices;
 using Backend.Interaction.Domain.Repositories;
@@ -27,11 +42,13 @@ using Backend.Orders.Application.Internal.QueryServices;
 using Backend.Orders.Domain.Repositories;
 using Backend.Orders.Domain.Services;
 using Backend.Orders.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 //configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -45,6 +62,74 @@ builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
 /////////////////////////Begin Database Configuration/////////////////////////
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//Configure Database Context and Logging Level
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (connectionString != null)
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging().EnableDetailedErrors();
+        }
+        else if (builder.Environment.IsProduction())
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors();
+        }
+    }
+});
+builder.Services.AddEndpointsApiExplorer();
+// Add Database Connection
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "PC Master Platform API",
+            Version = "v1.2",
+            Description = "PC Master",
+            TermsOfService = new Uri("https://tp-pcmaster.web.app/home"),
+            Contact = new OpenApiContact
+            {
+                Name   = "PCMaster",
+                Email = "contact@pcmaster.com"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "Apache 2.0",
+                Url  = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+            }
+        });
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    options.EnableAnnotations();
+});
 
 // Verify Database Connection string
 if (connectionString is null)
@@ -67,7 +152,15 @@ else if (builder.Environment.IsProduction())
                 .LogTo(Console.WriteLine, LogLevel.Error)
                 .EnableDetailedErrors();
         });
-
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy",
+        policy => 
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+});
 // Configure Dependency Injection
 
 // Shared Bounded Context Injection Configuration
@@ -84,14 +177,19 @@ builder.Services.AddScoped<ITechnicianQueryService, TechnicianQueryService>();
 builder.Services.AddScoped<ITechnicianCommandService, TechnicianCommandService>();
 
 //Interaction BC
-builder.Services.AddScoped<IReviewComponentRepository, ReviewComponentRepository>();
-builder.Services.AddScoped<IReviewComponentQueryService, ReviewComponentQueryService>();
-builder.Services.AddScoped<IReviewComponentCommandService, ReviewComponentCommandService>();
-builder.Services.AddScoped<IReviewTechnicalSupportRepository, ReviewTechnicalSupportRepository>();
-builder.Services.AddScoped<IReviewTechnicalSupportQueryService, ReviewTechnicalSupportQueryService>();
-builder.Services.AddScoped<IReviewTechnicalSupportCommandService, ReviewTechnicalSupportCommandService>();
+builder.Services.AddScoped<IComponentReviewRepository, ComponentReviewRepository>();
+builder.Services.AddScoped<IComponentReviewQueryService, ComponentReviewQueryService>();
+builder.Services.AddScoped<IComponentReviewCommandService, ComponentReviewCommandService>();
 
-/*
+builder.Services.AddScoped<ITechnicalSupportReviewRepository, TechnicalSupportReviewRepository>();
+builder.Services.AddScoped<ITechnicalSupportReviewQueryService, TechnicalSupportReviewQueryService>();
+builder.Services.AddScoped<ITechnicalSupportReviewCommandService, TechnicalSupportReviewCommandService>();
+
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
+builder.Services.AddScoped<IWishlistQueryService, WishlistQueryService>();
+builder.Services.AddScoped<IWishlistCommandService, WishlistCommandService>();
+
+
 //Component BC
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
@@ -100,18 +198,40 @@ builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
 builder.Services.AddScoped<IComponentRepository, ComponentRepository>();
 builder.Services.AddScoped<IComponentQueryService, ComponentQueryService>();
 builder.Services.AddScoped<IComponentCommandService, ComponentCommandService>();
-*/
-
-
-
-
-
-
 
 // Injection for Cart
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartQueryService, CartQueryService>();
 builder.Services.AddScoped<ICartCommandService, CartCommandService>();
+
+// IAM Bounded Context Dependency Injection Configuration
+
+// TokenSettings Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+// Configura la autenticación JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["TokenSettings:Issuer"],  // Reemplaza si es necesario
+            ValidAudience = builder.Configuration["TokenSettings:Audience"], // Reemplaza si es necesario
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSettings:Secret"]))
+        };
+    });
+
 
 /////////////////////////End Database Configuration/////////////////////////
 var app = builder.Build();
@@ -124,12 +244,19 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
+//app.UseMiddleware<RequestAuthorizationMiddleware>();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
+// Apply CORS Policy
+app.UseCors("AllowAllPolicy");
+
+// Add Authorization Middleware to the Pipeline
+app.UseRequestAuthorization();
 
 app.UseHttpsRedirection();
 

@@ -8,16 +8,22 @@ public class ComponentResourceFromEntityAssembler
         public static ComponentResource ToResource(Domain.Model.Aggregates.Component component)
         {
             return new ComponentResource(
-                component.ComponentId,
+                component.Id,
                 component.Name,
                 component.Description,
                 component.Price,
                 component.Stock,
                 component.ProviderId,
-                new Image(component.Image.Main, component.Image.Secondary),
+                component.Image,
                 component.Ratings,
-                new Categories(component.Categories.Type),
-                new Attributes(component.Attributes.AttributeList),
+                component.Model,
+                component.Color,
+                component.Dimensions,
+                component.Material,
+                component.Weight,
+                component.CategoryType,
+                component.CategorySubType,
+                component.CategoryBrand,
                 component.Country
             );
         }

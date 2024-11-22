@@ -15,9 +15,11 @@ public class TechnicianRepository(AppDbContext ctx)
         return await Context.Set<Technician>().FirstOrDefaultAsync(f=>f.Name == name);
     }
 
-    public async Task<Technician?> FindByStarsAsync(int stars)
+    public async Task<Technician?> FindByStarsAsync(double stars)
     {
-        return await Context.Set<Technician>().FirstOrDefaultAsync(f=>f.Stars == stars);
+        const double tolerance = 0.001; // Adjustable value based on required precision
+        return await Context.Set<Technician>()
+            .FirstOrDefaultAsync(f => Math.Abs(f.Stars - stars) < tolerance);
     }
     
     public async Task UpdateAsync(Technician technician)

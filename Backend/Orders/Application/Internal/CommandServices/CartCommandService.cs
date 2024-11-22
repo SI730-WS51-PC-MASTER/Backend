@@ -11,12 +11,14 @@ public class CartCommandService(ICartRepository cartRepository,
 {
     public async Task<Cart?> Handle(CreateCartCommand command)
     {
-        var cart =
-            await cartRepository.FindByComponentIdAsync(command.ComponentId);
-        if (cart != null)
-            throw new Exception("Cart with componentId already exists");
+        var exists = await cartRepository.ComponentIdExistsForUserAsync(command.UserId, command.ComponentId);
 
-        cart = new Cart(command);
+        if (exists)
+        {
+            throw new Exception("Component" + command.ComponentId +" already exists for user " + command.UserId );
+        }
+
+        var cart = new Cart(command);
 
         try
         {
@@ -30,5 +32,29 @@ public class CartCommandService(ICartRepository cartRepository,
         }
 
         return cart;
+    }
+
+    public async Task<bool> Handle(DeleteCartCommand command)
+    {
+        var cart = 
+                await cartRepository.FindByIdAsync(command.Id);
+
+        if (cart == null)
+        {
+            return false;
+            //throw new Exception("Cart not found to delete");
+        }
+
+        try
+        {
+            await cartRepository.DeleteByIdAsync(cart);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        return true;
     }
 }

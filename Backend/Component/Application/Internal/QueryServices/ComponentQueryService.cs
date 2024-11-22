@@ -20,4 +20,9 @@ public class ComponentQueryService(IComponentRepository componentRepository) : I
     {
         return await componentRepository.GetComponentsByProviderAsync(query.ProviderId);
     }
+
+    public async Task<IEnumerable<Domain.Model.Aggregates.Component>> Handle(GetAllComponentsQuery query)
+    {
+        return await componentRepository.ListAsync();
+    }
 }

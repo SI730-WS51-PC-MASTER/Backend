@@ -1,14 +1,17 @@
 using System.Net.Mime;
+using Backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Backend.TechnicalSupport.Domain.Model.Command;
 using Backend.TechnicalSupport.Domain.Model.Queries;
 using Backend.TechnicalSupport.Domain.Services;
 using Backend.TechnicalSupport.Interfaces.REST.Resources;
 using Backend.TechnicalSupport.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.TechnicalSupport.Interfaces.REST;
 
 [ApiController]
+[Authorize]
 [Route("/api/v1/technicians")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags ("Technicians")]
@@ -21,7 +24,7 @@ public class TechnicianController(ITechnicianCommandService commandService,
     /// <param name="resource"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> GetTechnicians([FromBody] CreateTechnicianResource resource)
+    public async Task<IActionResult> CreateTechnicians([FromBody] CreateTechnicianResource resource)
     {
         var command = CreateTechnicianCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await commandService.Handle(command);
@@ -32,69 +35,38 @@ public class TechnicianController(ITechnicianCommandService commandService,
     }
     
     /// <summary>
-    /// Gets technicians by their name.
+    /// Gets the top-ranked technicians with the greatest stars number, limited by the specified TopRanking value.
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    [HttpGet("by-name/{name}")]
-    public async Task<ActionResult> GetTechniciansByName(string name)
+    /// <returns>A list of top-ranked technicians based on stars.</returns>
+    [HttpGet("top-ranked")]
+    public async Task<ActionResult> GetTopRankedTechnicians()
     {
-        var getTechniciansByName = new GetTechnicianByNameQuery(name);
-        var result = await queryService.Handle(getTechniciansByName);
-        if (result is null) return NotFound();
-        var resources = TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result);
+        var query = new GetAllTechnicianByGreatestStarsNumberQuery(); // Uses default values
+        var result = await queryService.Handle(query);
+
+        if (result == null || !result.Any())
+            return NotFound("No technicians found with the specified criteria.");
+
+        // Transform the result to TechnicianResource with the rounded Stars value
+        var resources = result.Select(TechnicianResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
     
     /// <summary>
-    /// Gets technicians by their stars rating.
+    /// Retrieves all technicians
     /// </summary>
-    /// <param name="stars"></param>
-    /// <returns></returns>
-    [HttpGet("by-stars/{stars}")]
-    public async Task<ActionResult> GetTechniciansByStars(int stars)
-    {
-        var getTechniciansByStars = new GetTechnicianByStarsQuery(stars);
-        var result = await queryService.Handle(getTechniciansByStars);
-        if (result is null) return NotFound();
-        var resources = TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(resources);
-    }
-
-    /// <summary>
-    /// Gets technicians based on optional query parameters for name or star rating.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="stars"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActionResult> GetTechnicianFromQuery([FromQuery] string? name = null, [FromQuery] int? stars = null)
+    [SwaggerOperation(
+        Summary = "Get all technicians",
+        Description = "Get all technicians",
+        OperationId = "GetAllTechnician")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The list of technicians were found", typeof(IEnumerable<TechnicianResource>))]
+    public async Task<IActionResult> GetAllTechnician()
     {
-        if (!string.IsNullOrEmpty(name))
-        {
-            // Search technicians by name
-            var getTechniciansByName = new GetTechnicianByNameQuery(name);
-            var result = await queryService.Handle(getTechniciansByName);
-            if (result is null) return NotFound();
-
-            var resources = TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result);
-            return Ok(resources);
-        }
-        else if (stars.HasValue)
-        {
-            // Search technicians by stars number
-            var getTechniciansByStars = new GetTechnicianByStarsQuery(stars.Value);
-            var result = await queryService.Handle(getTechniciansByStars);
-            if (result is null) return NotFound();
-
-            var resources = TechnicianResourceFromEntityAssembler.ToResourceFromEntity(result);
-            return Ok(resources);
-        }
-        else
-        {
-            // If neither name nor stars are specified, we return BadRequest
-            return BadRequest("Debe especificar un parámetro de consulta, ya sea 'name' o 'stars'.");
-        }
+        var technicians = await queryService.Handle(new GetAllTechnicianQuery());
+        var technicianResources = technicians.Select(TechnicianResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(technicianResources);
     }
     
     /// <summary>
