@@ -47,10 +47,21 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
     public async Task<IActionResult> SignIn([FromBody] SignInResource resource)
     {
         var signInCommand = SignInCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var authenticatedUser = await userCommandService.Handle(signInCommand);
-        var authenticatedUserResource = AuthenticatedUserResourceFromEntityAssembler
-            .ToResourceFromEntity(authenticatedUser.user, authenticatedUser.token);
-        return Ok(authenticatedUserResource);
+        try
+        {
+            var authenticatedUser = await userCommandService.Handle(signInCommand);
+            // Logging
+            Console.WriteLine("User authenticated: " + authenticatedUser.user.Id);
+            var authenticatedUserResource = AuthenticatedUserResourceFromEntityAssembler
+                .ToResourceFromEntity(authenticatedUser.user, authenticatedUser.token);
+            return Ok(authenticatedUserResource);
+        }
+        catch (Exception exception)
+        {
+            // Log exception
+            Console.WriteLine(exception.Message);
+            throw;
+        }
     }
 
     /// <summary>

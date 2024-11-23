@@ -157,9 +157,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllPolicy",
         policy => 
-            policy.AllowAnyOrigin()
+            //policy.AllowAnyOrigin()
+            policy.WithOrigins("http://localhost:5173","http://localhost:5174", "https://apps-web-pc-master.web.app/")
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowCredentials());
 });
 // Configure Dependency Injection
 
